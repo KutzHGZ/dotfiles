@@ -1,0 +1,272 @@
+;; Emacs init file
+;; ~/.emacs.d/init.el
+;; Author : Kuzma Ludovic
+
+;; Check emacs version
+(when (< emacs-major-version 24)
+  (error "Emacs version 24 or higher is required"))
+
+;;
+;; User directories
+;;
+
+;; Define user directory
+(defconst user-emacs-directory "~/.emacs.d")
+
+;; Define user backup directory
+(defconst user-backup-directory
+  (concat user-emacs-directory "/backup"))
+
+;; Define user semanticdb directory
+(defconst user-semanticdb-directory
+  (concat user-emacs-directory "/semanticdb"))
+
+;; Define user org directory
+(defconst user-org-directory
+  (concat user-emacs-directory "/org"))
+
+;; Define user style file
+(defconst user-style-file
+  (concat user-emacs-directory "/style.el"))
+
+;; Define user key binding file
+(defconst user-key-binding-file
+  (concat user-emacs-directory "/keys.el"))
+
+;; Define user alias file
+(defconst user-alias-file
+  (concat user-emacs-directory "/alias.el"))
+
+;; Define user todo file
+(defconst user-todo-file
+  (concat user-org-directory "/todo.org"))
+
+;; Define user note file
+(defconst user-note-file
+  (concat user-org-directory "/note.org"))
+
+;; Make user directory
+(if (not (file-exists-p user-emacs-directory))
+    (make-directory user-emacs-directory))
+
+(if (not (file-exists-p user-backup-directory))
+    (make-directory user-backup-directory))
+
+(if (not (file-exists-p user-semanticdb-directory))
+    (make-directory user-semanticdb-directory))
+
+(if (not (file-exists-p user-org-directory))
+    (make-directory user-org-directory))
+
+;;
+;; Global configuration
+;;
+
+;; Always prefer UTF-8
+(prefer-coding-system 'utf-8)
+
+;; Always use syntax coloring
+(global-font-lock-mode t)
+
+;; Suppress startup screen
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-message t)
+
+;; Custom scratch message and mode
+(setq initial-major-mode 'c-mode)
+
+(setq initial-scratch-message "\
+/*
+ * Welcome to Emacs
+ * Configuration author : Ludovic Kuzma
+ * Installed packages :
+ * [Global] : org, nlinum, nlinum-hl
+ * [Coding] : function-args, helm, helm-gtags, clang-format
+ * [Lang]   : rust-mode, perl6-mode
+ * Version : 1.2.1 Full
+ * Default c identation : k&r
+ */
+")
+
+;; Enable backup file
+(setq make-backup-files t)
+
+;; Preserve hard links to the file
+(setq backup-by-copying-when-linked t)
+
+;; Preserve owner and group of the file
+(setq backup-by-copying-when-mismatch t)
+
+;; Set backup files directory
+(setq backup-directory-alist
+      `((".*" . ,user-backup-directory)))
+
+;; Set auto save file directory
+(setq auto-save-file-name-transforms
+      `((".*" ,user-backup-directory t)))
+
+;;
+;; Package configuration
+;;
+
+;; Define user packages
+(defconst user-packages
+  '(org
+	nlinum
+	nlinum-hl
+    function-args
+    helm
+    helm-gtags
+    clang-format
+    rust-mode
+	perl6-mode))
+
+;; Setup package management
+(require 'package)
+
+(add-to-list 'package-archives
+			 '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives
+			 '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives
+			 '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+
+(package-initialize)
+
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; Auto install needed user package
+(mapc
+ (lambda (package)
+   (unless (package-installed-p package)
+     (package-install package)))
+ user-packages)
+
+;;
+;; Module configuration
+;;
+
+;; Setup org
+(require 'org)
+(setq org-agenda-files (list user-todo-file))
+
+;; Setup semantic
+(require 'cedet)
+(require 'eieio)
+(require 'cc-mode)
+(require 'semantic)
+
+(setq semantic-default-save-directory user-semanticdb-directory)
+
+(global-semanticdb-minor-mode t)
+
+(global-semantic-idle-scheduler-mode t)
+;; Wait 30 seconds before parsing
+(setq semantic-idle-scheduler-idle-time 10)
+;; Maximum buffer size (4 MB)
+(setq semantic-idle-scheduler-max-buffer-size 4194304)
+;; Use idle work to parse files in the same directory
+(setq semantic-idle-work-parse-neighboring-files-flag t)
+
+ ;; Semantic bottom summary
+(global-semantic-idle-summary-mode t)
+
+(semantic-mode t)
+
+;; Setup helm
+(require 'helm)
+(require 'helm-config)
+
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+
+(setq helm-split-window-in-side-p t)
+(setq helm-move-to-line-cycle-in-source t)
+
+(helm-autoresize-mode t)
+(helm-mode t)
+
+;; Setup helm-gtags
+(require 'helm-gtags)
+
+(setq helm-gtags-ignore-case t)
+(setq helm-gtags-auto-update t)
+(setq helm-gtags-use-input-at-cursor t)
+(setq helm-gtags-pulse-at-cursor t)
+
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+(add-hook 'asm-mode-hook 'helm-gatgs-mode)
+
+;; Setup helm semantic
+(require 'helm-semantic)
+
+;; Setup function-args
+(require 'function-args)
+
+(setq moo-select-method 'helm)
+
+(add-hook 'c-mode-hook 'turn-on-function-args-mode)
+(add-hook 'c++-mode-hook 'turn-on-function-args-mode)
+
+;; Setup clang format
+(require 'clang-format)
+;; CLang format loads the default style
+;; from .clang-format file in one parent directory
+
+;;
+;; Custom files
+;;
+
+;; Set org mode for ORG files
+(add-to-list 'auto-mode-alist
+			 '("\\.org\\'" . org-mode))
+
+;; Set c mode for CUDA files
+(add-to-list 'auto-mode-alist
+			 '("\\.cu\\'" . c++-mode))
+
+;; Set c mode for OpenCL files
+(add-to-list 'auto-mode-alist
+			 '("\\.cl\\'" . c-mode))
+
+;;
+;; Load external files
+;;
+
+;; Load style
+(if (file-exists-p user-style-file)
+    (load user-style-file))
+
+;; Load custom key bindings
+(if (file-exists-p user-key-binding-file)
+    (load user-key-binding-file))
+
+;; Load aliases
+(if (file-exists-p user-alias-file)
+    (load user-alias-file))
+
+;;
+;; Custom
+;; Only one instance allowed
+;; Do not move to external files
+;;
+
+;; Set nlinum highlight font
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(nlinum-current-line ((t (:inherit linum :background "lime green" :foreground "black")))))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+	(perl6-mode rust-mode clang-format helm-gtags helm function-args nlinum-hl nlinum))))
+

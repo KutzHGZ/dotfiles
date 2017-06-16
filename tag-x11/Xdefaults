@@ -1,0 +1,24 @@
+! .Xdefaults
+! Author : Ludovic Kuzma
+
+! XTerm xwindow
+XTerm*background: black
+XTerm*foreground: grey
+XTerm*highlightColor: blue4
+XTerm*saveLines: 512
+! Always enable UTF8
+XTerm*utf8: 2
+XTerm*title: Kutz Xterm
+!Xterm*font: -*-clean-medium-*-*-*-14-*-*-*-*-*-*-*
+XTerm*font: -misc-fixed-medium-r-*-*-14-*-*-*-*-*-iso10646-*
+XTerm*geometry: 160x50+20+20
+
+! Emacs xwindow
+Emacs*title: Kutz Emacs
+Emacs*geometry: 160x50+20+20
+
+! XClock xwindow
+XClock*title: Kutz Xclock
+XClock*background: black
+XClock*foreground: grey
+XClock*analog: false

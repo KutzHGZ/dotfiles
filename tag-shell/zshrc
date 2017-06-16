@@ -1,0 +1,119 @@
+# zsh init file
+# ~/.zshrc
+# Author : Kuzma Ludovic (inspired by Jonathan Buschmann)
+
+# Emacs style key bindings
+bindkey -e
+
+bindkey ';5D' emacs-backward-word
+bindkey '^[[5D' emacs-backward-word
+
+bindkey ';5C' emacs-forward-word
+bindkey '^[[5C' emacs-forward-word
+
+# Set best editor ever
+EDITOR=emacs
+
+# Save history of zsh
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=1000
+SAVEHIST=$HISTSIZE
+
+# Load prompt
+autoload -Uz promptinit && promptinit
+setopt promptsubst
+setopt transientrprompt
+
+# Load prompt colors
+autoload -U colors && colors
+
+# Load compinit
+autoload -Uz compinit && compinit
+
+# Load zmv
+autoload -Uz zmv
+
+# {{{ Options
+
+setopt APPEND_HISTORY # Append shell history
+
+setopt HIST_EXPIRE_DUPS_FIRST # Duplication expire first
+setopt HIST_IGNORE_DUPS # Do not record duplicated event
+setopt HIST_IGNORE_ALL_DUPS # Delete old duplicated event if a new is recorded
+setopt HIST_FIND_NO_DUPS # Do not diplay previously found event
+setopt HIST_IGNORE_SPACE # Do not record event with start with space
+setopt HIST_SAVE_NO_DUPS # Do not write duplicated event to history
+setopt HIST_VERIFY
+
+unsetopt BEEP # Don't use Beeps
+unsetopt AUTO_CD
+setopt HASH_LIST_ALL # Hash $PATH before completion
+setopt INTERACTIVECOMMENTS # Always allow comments
+setopt UNSET
+
+# }}}
+
+# {{{ Shell colors
+
+# Change prompt color
+
+# Background and forground color
+PROMPT=""
+
+# Current User
+PROMPT+="%{$fg[green]%}%n%{$reset_color%}"
+PROMPT+="%{$fg[white]%}@%{$reset_color%}"
+# Current host
+PROMPT+="%{$fg[magenta]%}%m%{$reset_color%}"
+PROMPT+="%{$fg[white]%}:%{$reset_color%}"
+# Current working directory max depth is 2
+PROMPT+="%{$fg[blue]%}%2~%{$reset_color%}"
+# Prompt terminator
+PROMPT+="%(?/%{$fg[white]%}/%{$fg[red]%}) $ %{$reset_color%}"
+
+# Change cursor color
+
+set_cursor_color() {
+    if [ -n "$TMUX" ]; then
+    	printf '\033Ptmux;\033\033]12;%s\007\033\\' "$1"
+    elif [ "$TERM" = "screen-256color" ] || [ "$TERM" = "xterm" ]; then
+    	printf '\033]12;%s\007' "$1"
+    fi
+}
+
+zle-keymap-select() {
+    set_cursor_color "lime green"
+}
+
+zle-line-init() {
+    set_cursor_color "lime green"
+}
+
+zle-line-finish() {
+    set_cursor_color "lime green"
+}
+
+zle -N zle-keymap-select
+zle -N zle-line-init
+zle -N zle-line-finish
+
+# }}}
+
+# {{{ Zstyle
+
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion::complete:*' cache-apth "$HOME/.zcompcache"
+
+# }}}
+
+# {{{ Aliases
+
+# ls --color is not available in freebsd
+#alias ls="ls --color=auto"
+#alias ll="ls --color=auto -a -l -h"
+
+alias grep="grep --color=auto"
+alias mmv="noglob zmv -W"
+
+# }}}
+
