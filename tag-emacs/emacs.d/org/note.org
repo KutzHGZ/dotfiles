@@ -5,56 +5,6 @@ Author : Ludovic Kuzma
 Version : 1.2.1
 
 ** Emacs
-*** Org mode keys
-
-<tab> : In org-mode open section
-
-C-c C-t : Mark as TODO, DONE, ...
-C-c C-s : Insert schedule
-C-c C-d : Insert deadline
-C-c C-c : Insert tag
-
-M-<up> : Move past element up
-M-<down> : Move past element down
-
-M-<right> : Increase element depth
-M-<left> : Decrease element depth
-
-S-<right> : Rotate mark right
-S-<left> : Rotate mark left
-
-M-shift RET : To insert a TODO heading
-
-M-O : Open org agenda
-
-*** Helm mode keys
-
-C-x C-b : List buffers
-C-x C-f : Find file (Open/Create file)
-C-x C-f C-s : Grep a pattern in the current directory
-
-M-x : List emacs commands
-M-m : Open man page
-
-# Helm gtags mode
-
-M-q : List semantic tags
-M-s t : List tags
-M-s f : List tags in the current function
-M-s s : Find symbol
-
-M-s l : Show stack
-M-s c : Clear stack
-
-M-. : Find and goto reference and push to stack
-M-? : Pop to the previous position
-
-*** Functions args keys
-
-# C and C++ mode
-
-C-: : Complete C/C++ statement
-
 *** Emacs Builtin keys
 
 <tab> : In c-mode indent region
@@ -76,6 +26,10 @@ C-k : Kill next line
 M-k : Kill next sentence
 C-w : Kill region
 
+C-x C-k : Kill buffer
+C-x <right> : Switch to next buffer
+C-x <left> : Switch to previous buffer
+
 M-w : Copy region
 
 C-y : Yank (past) last killed text
@@ -88,8 +42,6 @@ C-x C-f : Find file (Open/Create file)
 C-x C-d : Find directories (List all direcotries)
 C-x C-s : Save current buffer
 C-x C-w : Save current buffer in another file
-
-C-x b : Switch current buffer
 
 C-a : Beginning of the current line
 C-e : End of the current line
@@ -143,11 +95,62 @@ C-x 0 : Close the current screen split
 
 C-x C-c : Quit emacs
 
+*** Org mode keys
+
+<tab> : In org-mode open section
+
+C-c C-t : Mark as TODO, DONE, ...
+C-c C-s : Insert schedule
+C-c C-d : Insert deadline
+C-c C-c : Insert tag
+
+M-<up> : Move past element up
+M-<down> : Move past element down
+
+M-<right> : Increase element depth
+M-<left> : Decrease element depth
+
+S-<right> : Rotate mark right
+S-<left> : Rotate mark left
+
+M-shift RET : To insert a TODO heading
+
+M-O : Open org agenda
+
+*** Helm mode keys
+
+C-x b : List buffers
+C-x C-f : Find file (Open/Create file)
+C-x C-f C-s : Grep a pattern in the current directory
+
+M-x : List emacs commands
+M-m : Open man page
+
+# Helm gtags mode
+
+M-q : List semantic tags
+M-s t : List tags
+M-s f : List tags in the current function
+M-s s : Find symbol
+
+M-s l : Show stack
+M-s c : Clear stack
+
+M-. : Find and goto reference and push to stack
+M-? : Pop to the previous position
+
+*** Functions args keys
+
+# C and C++ mode
+
+C-: : Complete C/C++ statement
+
 *** Version Control keys
 
 C-x v g : Launch version control interface
 
-In vc-annotate :
+# vc-annotate mode
+
 d : Diff of the line revision
 l : Log message of the line revision
 n : Next revision
@@ -159,6 +162,8 @@ C-x v ~ : Open file in a different revision
 C-x v = : Diff of the current file
 
 *** Custom keys
+
+C-x C-b : Switch current buffer
 
 M-T : Open todo file
 M-N : Open note file

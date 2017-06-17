@@ -35,7 +35,9 @@
 ;; Font
 ;;
 
-;; User font
+(require 'cl)
+
+;; User font list
 (defconst user-font-list
   '("DejaVu Sans Mono-10:weigth=normal"
     "DejaVu Sans-10:weight=normal"
@@ -43,8 +45,6 @@
     "Courier-10:weight=normal"))
 
 (defvar default-font nil)
-
-(require 'cl)
 
 (setq default-font
   (find-if (lambda (ft) (find-font (font-spec :name ft))) user-font-list))
@@ -105,6 +105,23 @@
 
 ;; Highlight current line
 (setq nlinum-highlight-current-line t)
+
+;; (defun disable-nlinum-mode ()
+;; 	"Disable nlinum mode when the buffer is to large or contains *"
+;; 	(when (or (string-match "*" (buffer-name))
+;; 			  (> (buffer-size) 3145728))
+;; 	  (nlinum-mode -1)))
+
+;; (add-hook 'c-mode-hook 'disable-nlinum-mode)
+
+(defun disable-nlinum ()
+  "Disable nlinum mode"
+  (nlinum-mode -1))
+
+(add-hook 'text-mode-hook 'disable-nlinum)
+(add-hook 'hexl-mode-hook 'disable-nlinum)
+(add-hook 'term-mode-hook 'disable-nlinum)
+(add-hook 'eshell-mode-hook 'disable-nlinum)
 
 (global-nlinum-mode t)
 

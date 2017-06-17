@@ -83,8 +83,10 @@
 ;; C-x C-f : Use helm to find file
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
-;; C-x C-b : Use helm to list buffers
-(global-set-key (kbd "C-x C-b") 'helm-mini)
+;; C-x b : Use helm to list buffers
+(global-set-key (kbd "C-x b") 'helm-mini)
+;; C-x C-b : Legacy emacs list buffers
+(global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 
 ;; M-q : List semantic tags
 (define-key helm-gtags-mode-map (kbd "M-q") 'helm-semantic)

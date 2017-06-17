@@ -105,6 +105,9 @@
 (setq auto-save-file-name-transforms
       `((".*" ,user-backup-directory t)))
 
+;; Set default man path
+(setq woman-manpath '("/usr/man" "/usr/share/man" "/usr/local/man"))
+
 ;;
 ;; Package configuration
 ;;
@@ -162,10 +165,10 @@
 (global-semanticdb-minor-mode t)
 
 (global-semantic-idle-scheduler-mode t)
-;; Wait 30 seconds before parsing
-(setq semantic-idle-scheduler-idle-time 10)
-;; Maximum buffer size (4 MB)
-(setq semantic-idle-scheduler-max-buffer-size 4194304)
+;; Wait 2 seconds before parsing
+(setq semantic-idle-scheduler-idle-time 2)
+;; Maximum buffer size (3 MB)
+(setq semantic-idle-scheduler-max-buffer-size 3145728)
 ;; Use idle work to parse files in the same directory
 (setq semantic-idle-work-parse-neighboring-files-flag t)
 
@@ -197,7 +200,18 @@
 
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
-(add-hook 'asm-mode-hook 'helm-gatgs-mode)
+(add-hook 'asm-mode-hook 'helm-gtags-mode)
+(add-hook 'java-mode-hook 'helm-gtags-mode)
+;; HTML and PHP
+(add-hook 'html-mode 'helm-gtags-mode)
+
+;; FreeBSD man command workaround for helm man woman
+(defvar man-command-args
+  (when (string-prefix-p "berkeley" (symbol-name system-type) t)
+	"%s"))
+
+(when man-command-args
+  (setq helm-man-format-switches man-command-args))
 
 ;; Setup helm semantic
 (require 'helm-semantic)
@@ -253,12 +267,12 @@
 ;; Do not move to external files
 ;;
 
-;; Set nlinum highlight font
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(linum ((t (:inherit (shadow default) :foreground "dim gray"))))
  '(nlinum-current-line ((t (:inherit linum :background "lime green" :foreground "black")))))
 
 (custom-set-variables
