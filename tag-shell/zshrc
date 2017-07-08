@@ -5,19 +5,28 @@
 # Emacs style key bindings
 bindkey -e
 
-bindkey ';5D' emacs-backward-word
-bindkey '^[[5D' emacs-backward-word
-
-bindkey ';5C' emacs-forward-word
-bindkey '^[[5C' emacs-forward-word
+# Bind C-<left> and C-<right>
+if [ -n "$TMUX" ]; then
+	bindkey ';5C' emacs-forward-word
+	bindkey ';5D' emacs-backward-word
+elif [ "$TERM" = "screen-256color" ]; then
+	bindkey '^[Oc' emacs-forward-word
+	bindkey '^[Od' emacs-backward-word
+elif [ "$TERM" = "xterm-256color" ] || [ "$TERM" = "xterm" ]; then
+	bindkey '^[OC' emacs-forward-word
+	bindkey '^[OD' emacs-backward-word
+else
+	bindkey '^[[5C' emacs-forward-word
+	bindkey '^[[5D' emacs-backward-word
+fi
 
 # Set best editor ever
 EDITOR=emacs
 
 # Save history of zsh
-HISTFILE=$HOME/.zsh_history
+HISTFILE=${HOME}/.zsh_history
 HISTSIZE=1000
-SAVEHIST=$HISTSIZE
+SAVEHIST=${HISTSIZE}
 
 # Load prompt
 autoload -Uz promptinit && promptinit
@@ -33,7 +42,9 @@ autoload -Uz compinit && compinit
 # Load zmv
 autoload -Uz zmv
 
-# {{{ Options
+#
+# Options
+#
 
 setopt APPEND_HISTORY # Append shell history
 
@@ -51,32 +62,62 @@ setopt HASH_LIST_ALL # Hash $PATH before completion
 setopt INTERACTIVECOMMENTS # Always allow comments
 setopt UNSET
 
-# }}}
-
-# {{{ Shell colors
+#
+# Shell colors
+#
 
 # Change prompt color
 
-# Background and forground color
-PROMPT=""
+#
+# Documentation of the \e escape :
+# \e[ is the SGR (Select Graphic Rendition) parameter
+# 38 is the extended set forground color escape extension
+# 5;<n> is an argument that allow you to choose from the range 0..255 for <n>
+# See : https://en.wikipedia.org/wiki/ANSI_escape_code
+#
 
-# Current User
-PROMPT+="%{$fg[green]%}%n%{$reset_color%}"
-PROMPT+="%{$fg[white]%}@%{$reset_color%}"
-# Current host
-PROMPT+="%{$fg[magenta]%}%m%{$reset_color%}"
-PROMPT+="%{$fg[white]%}:%{$reset_color%}"
-# Current working directory max depth is 2
-PROMPT+="%{$fg[blue]%}%2~%{$reset_color%}"
-# Prompt terminator
-PROMPT+="%(?/%{$fg[white]%}/%{$fg[red]%}) $ %{$reset_color%}"
+# Set foreground custom colors
+fg[medium_magenta]=$'\e[38;5;129m'
+fg[medium_blue]=$'\e[38;5;27m'
+fg[medium_red]=$'\e[38;5;124m'
+fg[medium_green]=$'\e[38;5;64m'
+
+get_custom_prompt() {
+	local prompt=""
+
+	# Current User
+	prompt+="%{$fg[green]%}%n%{$reset_color%}"
+	prompt+="%{$fg[white]%}@%{$reset_color%}"
+
+	# Current host
+	#prompt+="%{$fg[magenta]%}%m%{$reset_color%}"
+	prompt+="%{$fg[medium_magenta]%}%m%{$reset_color%}"
+	prompt+="%{$fg[white]%}:%{$reset_color%}"
+
+	# Current working directory max depth is 2
+	#prompt+="%{$fg[blue]%}%2~%{$reset_color%}"
+	prompt+="%{$fg[medium_blue]%}%2~%{$reset_color%}"
+
+	# Prompt terminator
+	prompt+="%(?/%{$fg[white]%}/%{$fg[red]%}) $ %{$reset_color%}"
+
+	echo "${prompt}"
+}
+
+PROMPT=$(get_custom_prompt)
 
 # Change cursor color
 
 set_cursor_color() {
+	if [ $# -ne 1 ]; then
+		return
+	fi
+
     if [ -n "$TMUX" ]; then
     	printf '\033Ptmux;\033\033]12;%s\007\033\\' "$1"
-    elif [ "$TERM" = "screen-256color" ] || [ "$TERM" = "xterm" ]; then
+    elif [ "$TERM" = "screen-256color" ] ||
+			 ["$TERM" = "xterm-256color"] ||
+			 [ "$TERM" = "xterm" ]; then
     	printf '\033]12;%s\007' "$1"
     fi
 }
@@ -97,23 +138,77 @@ zle -N zle-keymap-select
 zle -N zle-line-init
 zle -N zle-line-finish
 
-# }}}
+# Change command colors
 
-# {{{ Zstyle
+set_freebsd_ls_colors() {
+	# The default colors, see man ls
+	#export LSCOLORS="exfxcxdxbxegedabagacad"
+	export LSCOLORS="gxfxcxbxdxegedabagacad"
+}
+
+case ${$(uname):l} in
+	freebsd|macos)
+		set_freebsd_ls_colors
+	;;
+	linux)
+		# Nothing
+	;;
+esac
+
+#
+# Zstyle
+#
 
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-apth "$HOME/.zcompcache"
+zstyle ':completion::complete:*' cache-apth "${HOME}/.zcompcache"
 
-# }}}
+#
+# Aliases
+#
 
-# {{{ Aliases
+set_freebsd_aliases() {
+	alias ls="ls -G"
+	alias ll="ls -G -a -l -h"
+	alias grep="grep --color=auto"
+	alias mmv="noglob zmv -W"
+}
 
-# ls --color is not available in freebsd
-#alias ls="ls --color=auto"
-#alias ll="ls --color=auto -a -l -h"
+set_linux_aliases() {
+	alias ls="ls --color=auto"
+	alias ll="ls --color=auto -a -l -h"
+	alias grep="grep --color=auto"
+	alias mmv="noglob zmv -W"
+}
 
-alias grep="grep --color=auto"
-alias mmv="noglob zmv -W"
+case ${$(uname):l} in
+	freebsd|macos)
+		set_freebsd_aliases
+	;;
+	linux)
+		set_linux_aliases
+	;;
+esac
 
-# }}}
+#
+# Load custom extension
+#
 
+source_directory() {
+
+	if [ $# -ne 1 ]; then
+		return
+	fi
+
+	local directory="$1"
+
+	if [ -d "${directory}" ]; then
+		for files in $(find "${directory}" -maxdepth 1 -print 2>/dev/null | sort -n); do
+			if [ -f "${files}" ]; then
+				source "${files}"
+			fi
+		done
+	fi
+}
+
+source_directory "${HOME}/.zsh_sources"
+source_directory "${HOME}/.zsh_sources/$(hostname)"
