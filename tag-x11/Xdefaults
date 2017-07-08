@@ -1,24 +1,56 @@
-! .Xdefaults
+! Xwindow configuration file
+! ~/.Xdefaults
 ! Author : Ludovic Kuzma
 
+!
 ! XTerm xwindow
+!
+
+! Window settings
+XTerm*title: Xterm
 XTerm*background: black
 XTerm*foreground: grey
 XTerm*highlightColor: blue4
-XTerm*saveLines: 512
-! Always enable UTF8
-XTerm*utf8: 2
-XTerm*title: Kutz Xterm
+XTerm*geometry: 160x50+20+20
 !Xterm*font: -*-clean-medium-*-*-*-14-*-*-*-*-*-*-*
 XTerm*font: -misc-fixed-medium-r-*-*-14-*-*-*-*-*-iso10646-*
-XTerm*geometry: 160x50+20+20
+! Terminal settings
+XTerm*utf8: 2 ! Always enable UTF8
+XTerm*saveLines: 512
 
+!
+! URxvt xwindow
+!
+
+! Window settings
+URxvt*title: Urxvt
+URxvt*background: black
+URxvt*foreground: grey
+URxvt*highlightColor: blue4
+URxvt*geometry: 160x50+20+20
+URxvt*font: -misc-fixed-medium-r-*-*-14-*-*-*-*-*-iso10646-*
+URxvt*visualBell: false
+! Scroll settings
+URxvt*scrollBar: false
+URxvt*scrollTtyOutput: false
+URxvt*scrollTtyKeypress: true
+URxvt*skipScroll: true ! Faster scrolling for huge line output
+! Terminal settings
+URxvt*termName: screen-256color
+URxvt*loginShell: true
+
+!
 ! Emacs xwindow
-Emacs*title: Kutz Emacs
+!
+
+Emacs*title: Emacs
 Emacs*geometry: 160x50+20+20
 
+!
 ! XClock xwindow
-XClock*title: Kutz Xclock
+!
+
+XClock*title: Xclock
 XClock*background: black
 XClock*foreground: grey
 XClock*analog: false
