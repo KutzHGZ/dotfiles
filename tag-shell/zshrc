@@ -2,11 +2,23 @@
 # ~/.zshrc
 # Author : Kuzma Ludovic (inspired by Jonathan Buschmann)
 
+# Useful functions
+
+terminal_256color() {
+	[ "$TERM" = "screen-256color" ] ||
+		[ "$TERM" = "xterm-256color" ] ||
+		[ "$TERM" = "xterm" ]
+}
+
+terminal_tmux() {
+	[ -n "$TMUX" ]
+}
+
 # Emacs style key bindings
 bindkey -e
 
 # Bind C-<left> and C-<right>
-if [ -n "$TMUX" ]; then
+if terminal_tmux; then
 	bindkey ';5C' emacs-forward-word
 	bindkey ';5D' emacs-backward-word
 elif [ "$TERM" = "screen-256color" ]; then
@@ -77,10 +89,17 @@ setopt UNSET
 #
 
 # Set foreground custom colors
-fg[medium_magenta]=$'\e[38;5;129m'
-fg[medium_blue]=$'\e[38;5;27m'
-fg[medium_red]=$'\e[38;5;124m'
-fg[medium_green]=$'\e[38;5;64m'
+if terminal_256color; then
+	fg[medium_magenta]=$'\e[38;5;129m'
+	fg[medium_blue]=$'\e[38;5;27m'
+	fg[medium_red]=$'\e[38;5;124m'
+	fg[medium_green]=$'\e[38;5;64m'
+else
+	fg[medium_magenta]=$fg[magenta]
+	fg[medium_blue]=$fg[blue]
+	fg[medium_red]=$fg[red]
+	fg[medium_green]=$fg[green]
+fi
 
 get_custom_prompt() {
 	local prompt=""
@@ -90,16 +109,23 @@ get_custom_prompt() {
 	prompt+="%{$fg[white]%}@%{$reset_color%}"
 
 	# Current host
-	#prompt+="%{$fg[magenta]%}%m%{$reset_color%}"
 	prompt+="%{$fg[medium_magenta]%}%m%{$reset_color%}"
 	prompt+="%{$fg[white]%}:%{$reset_color%}"
 
 	# Current working directory max depth is 2
-	#prompt+="%{$fg[blue]%}%2~%{$reset_color%}"
 	prompt+="%{$fg[medium_blue]%}%2~%{$reset_color%}"
 
 	# Prompt terminator
-	prompt+="%(?/%{$fg[white]%}/%{$fg[red]%}) $ %{$reset_color%}"
+	prompt+="%(?/%{$fg[white]%}/%{$fg[red]%}) "
+
+	# Super user prompt
+	if [ $(id -u) -eq 0 ]; then
+		prompt+="#"
+	else
+		prompt+="$"
+	fi
+
+	prompt+=" %{$reset_color%}"
 
 	echo "${prompt}"
 }
@@ -113,11 +139,9 @@ set_cursor_color() {
 		return
 	fi
 
-    if [ -n "$TMUX" ]; then
+    if terminal_tmux; then
     	printf '\033Ptmux;\033\033]12;%s\007\033\\' "$1"
-    elif [ "$TERM" = "screen-256color" ] ||
-			 [ "$TERM" = "xterm-256color" ] ||
-			 [ "$TERM" = "xterm" ]; then
+    elif terminal_256color; then
     	printf '\033]12;%s\007' "$1"
     fi
 }
@@ -212,3 +236,4 @@ source_directory() {
 
 source_directory "${HOME}/.zsh_sources"
 source_directory "${HOME}/.zsh_sources/$(hostname)"
+
