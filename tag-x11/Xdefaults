@@ -15,7 +15,6 @@ XTerm*geometry: 160x50+20+20
 !Xterm*font: -*-clean-medium-*-*-*-14-*-*-*-*-*-*-*
 XTerm*font: -misc-fixed-medium-r-*-*-14-*-*-*-*-*-iso10646-*
 ! Terminal settings
-XTerm*utf8: 2 ! Always enable UTF8
 XTerm*saveLines: 512
 
 !
