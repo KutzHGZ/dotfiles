@@ -116,7 +116,7 @@ set_cursor_color() {
     if [ -n "$TMUX" ]; then
     	printf '\033Ptmux;\033\033]12;%s\007\033\\' "$1"
     elif [ "$TERM" = "screen-256color" ] ||
-			 ["$TERM" = "xterm-256color"] ||
+			 [ "$TERM" = "xterm-256color" ] ||
 			 [ "$TERM" = "xterm" ]; then
     	printf '\033]12;%s\007' "$1"
     fi
