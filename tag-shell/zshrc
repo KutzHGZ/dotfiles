@@ -35,9 +35,9 @@ fi
 # Set best editor ever
 EDITOR=emacs
 
-# Save history of zsh
+# Zsh history
 HISTFILE=${HOME}/.zsh_history
-HISTSIZE=1000
+HISTSIZE=4000
 SAVEHIST=${HISTSIZE}
 
 # Load prompt
