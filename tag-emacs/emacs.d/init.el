@@ -82,8 +82,8 @@
  * Installed packages :
  * [Global] : org, nlinum, nlinum-hl
  * [Coding] : function-args, helm, helm-gtags, clang-format
- * [Lang]   : rust-mode, perl6-mode
- * Version : 1.2.1 Full
+ * [Lang]   : rust-mode, perl6-mode, markdown-mode
+ * Version : 1.3.0-Full
  * Default c identation : k&r
  */
 ")
@@ -114,15 +114,16 @@
 
 ;; Define user packages
 (defconst user-packages
-  '(org
+  '(helm
+	helm-gtags
 	nlinum
 	nlinum-hl
-    function-args
-    helm
-    helm-gtags
-    clang-format
-    rust-mode
-	perl6-mode))
+	function-args
+	org
+	rust-mode
+	perl6-mode
+	markdown-mode
+	clang-format))
 
 ;; Setup package management
 (require 'package)
@@ -237,7 +238,7 @@
 (add-to-list 'auto-mode-alist
 			 '("\\.org\\'" . org-mode))
 
-;; Set c mode for CUDA files
+;; Set c++ mode for CUDA files
 (add-to-list 'auto-mode-alist
 			 '("\\.cu\\'" . c++-mode))
 
@@ -282,5 +283,5 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(perl6-mode rust-mode clang-format helm-gtags helm function-args nlinum-hl nlinum))))
+	(markdown-mode perl6-mode rust-mode clang-format helm-gtags helm function-args nlinum-hl nlinum))))
 

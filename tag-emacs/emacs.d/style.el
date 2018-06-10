@@ -126,5 +126,5 @@
 (global-nlinum-mode t)
 
 ;; Legacy emacs linum has performance issues
-;;(global-linum-mode t)
+;; (global-linum-mode t)
 

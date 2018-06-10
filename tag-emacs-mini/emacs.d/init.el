@@ -58,7 +58,7 @@
  * Welcome to Emacs
  * Configuration author : Ludovic Kuzma
  * Installed packages : helm
- * Version : Basic
+ * Version : 1.0.0-Basic
  * Default c identation : k&r
  */
 ")
