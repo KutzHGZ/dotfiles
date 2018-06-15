@@ -4,36 +4,65 @@
 
 # Useful functions
 
-terminal_256color() {
-	[ "$TERM" = "screen-256color" ] ||
-		[ "$TERM" = "xterm-256color" ] ||
-		[ "$TERM" = "xterm" ]
+# Note : some terminal emulator export TERM to xterm but they support 256 colors
+_terminal_256color() {
+	[ "$TERM" = "screen-256color" ] || [ "${TERM[1,5]}" = "xterm" ]
 }
 
-terminal_tmux() {
+_terminal_tmux() {
 	[ -n "$TMUX" ]
 }
+
+get_os_lower() {
+	echo "${$(uname):l}"
+}
+
+emacs_installed() {
+	[ $(command -v "emacs") ]
+}
+
+mg_installed() {
+	[ $(command -v "mg") ]
+}
+
+tmux_installed() {
+	[ $(command -v "tmux") ]
+}
+
+#
+# Bind keys
+#
 
 # Emacs style key bindings
 bindkey -e
 
-# Bind C-<left> and C-<right>
-if terminal_tmux; then
-	bindkey ';5C' emacs-forward-word
-	bindkey ';5D' emacs-backward-word
-elif [ "$TERM" = "screen-256color" ]; then
-	bindkey '^[Oc' emacs-forward-word
-	bindkey '^[Od' emacs-backward-word
-elif [ "$TERM" = "xterm-256color" ] || [ "$TERM" = "xterm" ]; then
-	bindkey '^[OC' emacs-forward-word
-	bindkey '^[OD' emacs-backward-word
-else
-	bindkey '^[[5C' emacs-forward-word
-	bindkey '^[[5D' emacs-backward-word
-fi
+# Xterm and Tmux
+bindkey ';5A' up-line # C-<up>
+bindkey ';5B' down-line # C-<down>
+bindkey ';5C' emacs-forward-word # C-<right>
+bindkey ';5D' emacs-backward-word # C-<left>
+# Putty
+bindkey '^[OA' up-line # C-<up>
+bindkey '^[OB' down-line # C-<down>
+bindkey '^[OC' emacs-forward-word # C-<right>
+bindkey '^[OD' emacs-backward-word # C-<left>
+# Urxvt
+bindkey '^[Oa' up-line # C-<up>
+bindkey '^[Ob' down-line # C-<down>
+bindkey '^[Oc' emacs-forward-word # C-<right>
+bindkey '^[Od' emacs-backward-word # C-<left>
 
-# Set best editor ever
-EDITOR=emacs
+#
+# Zsh init
+#
+
+# Set the best editor ever
+
+if [ emacs_installed ]; then
+	EDITOR=emacs
+elif [ mg_installed ]; then
+	EDITOR=mg
+fi
 
 # Zsh history
 HISTFILE=${HOME}/.zsh_history
@@ -89,7 +118,7 @@ setopt UNSET
 #
 
 # Set foreground custom colors
-if terminal_256color; then
+if _terminal_256color; then
 	fg[medium_magenta]=$'\e[38;5;129m'
 	fg[medium_blue]=$'\e[38;5;27m'
 	fg[medium_red]=$'\e[38;5;124m'
@@ -132,30 +161,32 @@ get_custom_prompt() {
 
 PROMPT=$(get_custom_prompt)
 
+unfunction get_custom_prompt
+
 # Change cursor color
 
-set_cursor_color() {
+_set_cursor_color() {
 	if [ $# -ne 1 ]; then
 		return
 	fi
 
-    if terminal_tmux; then
+    if _terminal_tmux; then
     	printf '\033Ptmux;\033\033]12;%s\007\033\\' "$1"
-    elif terminal_256color; then
+    elif _terminal_256color; then
     	printf '\033]12;%s\007' "$1"
     fi
 }
 
 zle-keymap-select() {
-    set_cursor_color "lime green"
+    _set_cursor_color "lime green"
 }
 
 zle-line-init() {
-    set_cursor_color "lime green"
+    _set_cursor_color "lime green"
 }
 
 zle-line-finish() {
-    set_cursor_color "lime green"
+    _set_cursor_color "lime green"
 }
 
 zle -N zle-keymap-select
@@ -170,7 +201,7 @@ set_freebsd_ls_colors() {
 	export LSCOLORS="gxfxcxbxdxegedabagacad"
 }
 
-case ${$(uname):l} in
+case $(get_os_lower) in
 	freebsd|macos)
 		set_freebsd_ls_colors
 	;;
@@ -178,6 +209,8 @@ case ${$(uname):l} in
 		# Nothing
 	;;
 esac
+
+unfunction set_freebsd_ls_colors
 
 #
 # Zstyle
@@ -190,21 +223,33 @@ zstyle ':completion::complete:*' cache-apth "${HOME}/.zcompcache"
 # Aliases
 #
 
+set_aliases() {
+	alias grep="grep --color=auto"
+	alias mmv="noglob zmv -W"
+
+	if [ emacs_installed ]; then
+		alias mcs="emacs -nw --no-site-file"
+		alias qmcs="emacs -nw -Q"
+	fi
+
+	if [ tmux_installed ] && [ _terminal_256color ]; then
+		alias tmux="tmux -2"
+	fi
+}
+
 set_freebsd_aliases() {
 	alias ls="ls -G"
 	alias ll="ls -G -a -l -h"
-	alias grep="grep --color=auto"
-	alias mmv="noglob zmv -W"
 }
 
 set_linux_aliases() {
 	alias ls="ls --color=auto"
 	alias ll="ls --color=auto -a -l -h"
-	alias grep="grep --color=auto"
-	alias mmv="noglob zmv -W"
 }
 
-case ${$(uname):l} in
+set_aliases
+
+case $(get_os_lower) in
 	freebsd|macos)
 		set_freebsd_aliases
 	;;
@@ -213,12 +258,15 @@ case ${$(uname):l} in
 	;;
 esac
 
+unfunction set_aliases
+unfunction set_freebsd_aliases
+unfunction set_linux_aliases
+
 #
 # Load custom extension
 #
 
 source_directory() {
-
 	if [ $# -ne 1 ]; then
 		return
 	fi
@@ -237,3 +285,10 @@ source_directory() {
 source_directory "${HOME}/.zsh_sources"
 source_directory "${HOME}/.zsh_sources/$(hostname)"
 
+unfunction source_directory
+
+# Clean
+unfunction get_os_lower
+unfunction emacs_installed
+unfunction mg_installed
+unfunction tmux_installed
