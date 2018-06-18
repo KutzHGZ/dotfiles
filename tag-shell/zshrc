@@ -1,5 +1,7 @@
-# zsh init file
+# -*- mode: sh; -*-
+
 # ~/.zshrc
+# zsh init file
 # Author : Kuzma Ludovic (inspired by Jonathan Buschmann)
 
 # Useful functions
@@ -37,10 +39,10 @@ tmux_installed() {
 bindkey -e
 
 # Xterm and Tmux
-bindkey ';5A' up-line # C-<up>
-bindkey ';5B' down-line # C-<down>
-bindkey ';5C' emacs-forward-word # C-<right>
-bindkey ';5D' emacs-backward-word # C-<left>
+bindkey '^[[1;5A' up-line # C-<up>
+bindkey '^[[1;5B' down-line # C-<down>
+bindkey '^[[1;5C' emacs-forward-word # C-<right>
+bindkey '^[[1;5D' emacs-backward-word # C-<left>
 # Putty
 bindkey '^[OA' up-line # C-<up>
 bindkey '^[OB' down-line # C-<down>

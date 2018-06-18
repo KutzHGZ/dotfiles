@@ -1,5 +1,5 @@
-;; Emacs init file
 ;; ~/.emacs.d/init.el
+;; Emacs init file
 ;; Author : Kuzma Ludovic
 
 ;; Check emacs version
