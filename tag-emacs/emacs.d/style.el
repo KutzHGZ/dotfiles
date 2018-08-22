@@ -88,10 +88,30 @@
 
 ;; Highlight above 80 column and trailing spaces
 (setq whitespace-style '(face lines-tail trailing))
+(setq whitespace-line-column 80)
 
 ;; Disable whitespace post processing
 ;; Increase cursor speed
 (defun whitespace-post-command-hook() nil)
+
+(defun disable-whitespace ()
+  "Disable whithespace highlight"
+  (set (make-local-variable 'whitespace-style) nil))
+
+(defun disable-whitespace-linestail ()
+  "Disable whithespace line tail highlight"
+  (set (make-local-variable 'whitespace-style) '(face trailing)))
+
+;; Disable whitespace for some major modes
+(add-hook 'hexl-mode-hook 'disable-whitespace)
+(add-hook 'term-mode-hook 'disable-whitespace)
+(add-hook 'eshell-mode-hook 'disable-whitespace)
+
+;; Disable whitespace line tail for some major modes
+(add-hook 'text-mode-hook 'disable-whitespace-linestail)
+(add-hook 'xml-mode-hook 'disable-whitespace-linestail)
+(add-hook 'html-mode-hook 'disable-whitespace-linestail)
+(add-hook 'TeX-mode-hook 'disable-whitespace-linestail)
 
 (global-whitespace-mode t)
 
@@ -118,6 +138,7 @@
   "Disable nlinum mode"
   (nlinum-mode -1))
 
+;; Disable nlinum for some major modes
 (add-hook 'text-mode-hook 'disable-nlinum)
 (add-hook 'hexl-mode-hook 'disable-nlinum)
 (add-hook 'term-mode-hook 'disable-nlinum)
