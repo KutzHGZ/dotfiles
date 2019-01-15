@@ -3,8 +3,8 @@
 ;; Author : Kuzma Ludovic
 
 ;; Check emacs version
-(when (< emacs-major-version 24)
-  (error "Emacs version 24 or higher is required"))
+(when (< emacs-major-version 25)
+  (error "Emacs version 25 or higher is required"))
 
 ;;
 ;; User directories
@@ -76,14 +76,15 @@
 (setq initial-major-mode 'c-mode)
 
 (setq initial-scratch-message "\
-/*
+/**
  * Welcome to Emacs
- * Configuration author : Ludovic Kuzma
+ * Author : Ludovic Kuzma
  * Installed packages :
  * [Global] : org, nlinum, nlinum-hl
  * [Coding] : function-args, helm, helm-gtags, clang-format
- * [Lang]   : rust-mode, perl6-mode, markdown-mode
- * Version : 1.3.0-Full
+ * [Lang]   : rust-mode, perl6-mode, cmake-mode, yaml-mode,
+ * markdown-mode
+ * Version : 1.4.0-Full
  * Default c identation : k&r
  */
 ")
@@ -122,6 +123,8 @@
 	org
 	rust-mode
 	perl6-mode
+	cmake-mode
+	yaml-mode
 	markdown-mode
 	clang-format))
 
