@@ -60,9 +60,9 @@ bindkey '^[Od' emacs-backward-word # C-<left>
 
 # Set the best editor ever
 
-if [ emacs_installed ]; then
+if emacs_installed; then
 	EDITOR=emacs
-elif [ mg_installed ]; then
+elif mg_installed; then
 	EDITOR=mg
 fi
 
@@ -229,12 +229,12 @@ set_aliases() {
 	alias grep="grep --color=auto"
 	alias mmv="noglob zmv -W"
 
-	if [ emacs_installed ]; then
+	if emacs_installed; then
 		alias mcs="emacs -nw --no-site-file"
 		alias qmcs="emacs -nw -Q"
 	fi
 
-	if [ tmux_installed ] && [ _terminal_256color ]; then
+	if tmux_installed && _terminal_256color; then
 		alias tmux="tmux -2"
 	fi
 }
