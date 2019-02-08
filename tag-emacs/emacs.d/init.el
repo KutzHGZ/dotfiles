@@ -83,8 +83,8 @@
  * [Global] : org, nlinum, nlinum-hl
  * [Coding] : function-args, helm, helm-gtags, clang-format
  * [Lang]   : rust-mode, perl6-mode, cmake-mode, yaml-mode,
- * markdown-mode
- * Version : 1.4.0-Full
+ * markdown-mode, web-mode
+ * Version : 1.5.0-Full
  * Default c identation : k&r
  */
 ")
@@ -126,6 +126,7 @@
 	cmake-mode
 	yaml-mode
 	markdown-mode
+	web-mode
 	clang-format))
 
 ;; Setup package management
@@ -206,8 +207,6 @@
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 (add-hook 'asm-mode-hook 'helm-gtags-mode)
 (add-hook 'java-mode-hook 'helm-gtags-mode)
-;; HTML and PHP
-(add-hook 'html-mode 'helm-gtags-mode)
 
 ;; FreeBSD man command workaround for helm man woman
 (defvar man-command-args
@@ -233,21 +232,46 @@
 ;; CLang format loads the default style
 ;; from .clang-format file in one parent directory
 
+;; Setup web-mode
+(require 'web-mode)
+
+;; Auto pairing (<?php ?>)
+(setq web-mode-enable-auto-pairing t)
+;; Auto opening HTML tags
+(setq web-mode-enable-auto-opening t)
+;; Auto closing HTML tags (<p></p>)
+(setq web-mode-enable-auto-closing t)
+;; Auto quoting for attributes (attr="")
+(setq web-mode-enable-auto-quoting nil)
+;; Auto exending (d/ -> <div></div>)
+(setq web-mode-enable-auto-expanding nil)
+
+;; web-mode gtags (PHP, JS)
+(add-hook 'web-mode-hook 'helm-gtags-mode)
+
 ;;
 ;; Custom files
 ;;
 
-;; Set org mode for ORG files
-(add-to-list 'auto-mode-alist
-			 '("\\.org\\'" . org-mode))
+;; Set org-mode for ORG files
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
-;; Set c++ mode for CUDA files
-(add-to-list 'auto-mode-alist
-			 '("\\.cu\\'" . c++-mode))
+;; Set c++-mode for CUDA files
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
 
-;; Set c mode for OpenCL files
-(add-to-list 'auto-mode-alist
-			 '("\\.cl\\'" . c-mode))
+;; Set c-mode for OpenCL files
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode))
+
+;; Set web-mode for HTML, PHP, JS, JSON, CSS, SCSS
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+
+;; Set web-mode for Vue.js files
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
 ;;
 ;; Load external files
@@ -286,5 +310,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(markdown-mode perl6-mode rust-mode clang-format helm-gtags helm function-args nlinum-hl nlinum))))
-
+	(clang-format web-mode markdown-mode yaml-mode cmake-mode perl6-mode rust-mode function-args nlinum-hl nlinum helm-gtags helm))))

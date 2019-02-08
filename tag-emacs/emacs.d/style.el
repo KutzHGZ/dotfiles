@@ -65,8 +65,13 @@
 
 ;; Set tab width
 (setq-default tab-width 4)
+;; Built-in offsets
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
+;; web-mode offsets (HTML, CSS, [JS, PHP, ...])
+(setq web-mode-markup-indent-offset tab-width)
+(setq web-mode-css-indent-offset tab-width)
+(setq web-mode-code-indent-offset tab-width)
 
 ;; Default ident for c-mode
 (setq c-default-style "k&r")
@@ -112,6 +117,8 @@
 (add-hook 'xml-mode-hook 'disable-whitespace-linestail)
 (add-hook 'html-mode-hook 'disable-whitespace-linestail)
 (add-hook 'TeX-mode-hook 'disable-whitespace-linestail)
+;; Lines tail is not recommanded for PHP, HTML and JS
+(add-hook 'web-mode-hook 'disable-whitespace-linestail)
 
 (global-whitespace-mode t)
 
