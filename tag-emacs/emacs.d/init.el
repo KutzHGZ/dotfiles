@@ -84,7 +84,7 @@
  * [Coding] : function-args, helm, helm-gtags, clang-format
  * [Lang]   : rust-mode, perl6-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode
- * Version : 1.5.0-Full
+ * Version : 1.5.1-Full
  * Default c identation : k&r
  */
 ")

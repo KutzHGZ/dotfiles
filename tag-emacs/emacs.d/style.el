@@ -72,6 +72,8 @@
 (setq web-mode-markup-indent-offset tab-width)
 (setq web-mode-css-indent-offset tab-width)
 (setq web-mode-code-indent-offset tab-width)
+;; Do not add padding inside <script></script>
+(setq web-mode-script-padding 0)
 
 ;; Default ident for c-mode
 (setq c-default-style "k&r")
