@@ -1,10 +1,33 @@
-;; Emacs style definition file
 ;; ~/.emacs.d/style.el
+;; Emacs style definition file
 ;; Auhtor : Kuzma Ludovic
 
-;; COLOR AND INDENTING
+;;
+;; Global configuration
+;;
 
+;; Disable bell
+(setq visible-bell t)
+(setq ring-bell-function 'ignore)
+
+;; Disable menubar
+(menu-bar-mode -1)
+
+;; Disable menubar, toolbars, tooltips and scrollbars in window mode
+(when window-system
+    (progn
+      (tool-bar-mode -1)
+      (tooltip-mode -1)
+      (scroll-bar-mode -1)))
+
+;; Display line and column at the bottom
+(line-number-mode t)
+(column-number-mode t)
+
+;;
 ;; Colors
+;;
+
 (set-background-color "black")
 (set-foreground-color "grey")
 (set-cursor-color "lime green")
@@ -55,26 +78,43 @@
 ;; Ident with case label
 (c-set-offset 'case-label '+)
 
-;; Highlight above 80 column and trailing spaces
-(require 'whitespace)
-(global-whitespace-mode t)
-(setq whitespace-style '(face lines-tail trailing))
+;;
+;; White spaces
+;;
 
-;; Suppress whitespace trailing spaces cursor slow down
+(require 'whitespace)
+
+;; Highlight above 80 column and trailing spaces
+(setq whitespace-style '(face lines-tail trailing))
+(setq whitespace-line-column 80)
+
+;; Disable whitespace post processing
+;; Increase cursor speed
 (defun whitespace-post-command-hook() nil)
 
-;; Display column
-(setq column-number-mode t)
+(defun disable-whitespace ()
+  "Disable whithespace highlight"
+  (set (make-local-variable 'whitespace-style) nil))
 
-;; Display line
+(defun disable-whitespace-linestail ()
+  "Disable whithespace line tail highlight"
+  (set (make-local-variable 'whitespace-style) '(face trailing)))
+
+;; Disable whitespace for some major modes
+(add-hook 'hexl-mode-hook 'disable-whitespace)
+(add-hook 'term-mode-hook 'disable-whitespace)
+(add-hook 'eshell-mode-hook 'disable-whitespace)
+
+;; Disable whitespace line tail for some major modes
+(add-hook 'text-mode-hook 'disable-whitespace-linestail)
+(add-hook 'xml-mode-hook 'disable-whitespace-linestail)
+(add-hook 'html-mode-hook 'disable-whitespace-linestail)
+(add-hook 'TeX-mode-hook 'disable-whitespace-linestail)
+
+(global-whitespace-mode t)
+
+;;
+;; Column line number
+;;
+
 (global-linum-mode 1)
-
-;; Disable menubar
-(menu-bar-mode -1)
-
-;; Disable toolbars, tooltips and scrollbars in window mode
-(if window-system
-    (progn
-      (tool-bar-mode -1)
-      (tooltip-mode -1)
-      (scroll-bar-mode -1)))

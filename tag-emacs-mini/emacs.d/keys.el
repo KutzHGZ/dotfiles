@@ -1,8 +1,10 @@
-;; Key binding definition file
 ;; ~/.emacs.d/keys.el
+;; Key binding definition file
 ;; Author : Kuzma Ludovic
 
-;; GLOBAL KEYS
+;;
+;; Global
+;;
 
 ;; Disable C-z in window mode
 (if window-system
@@ -53,7 +55,9 @@
 ;; C-c s : delete trailing white space
 (global-set-key (kbd "C-c s") 'delete-trailing-whitespace)
 
-;; HELM MODE KEYS
+;;
+;; Helm mode
+;;
 
 ;; M-x : Use helm to run emacs commands
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -66,3 +70,14 @@
 
 ;; C-x C-b : Use helm to list buffers
 (global-set-key (kbd "C-x C-b") 'helm-mini)
+
+;; Restore the old left, right arrow key behavior of helm
+
+(define-key helm-map (kbd "<left>") 'helm-previous-source)
+(define-key helm-map (kbd "<right>") 'helm-next-source)
+
+(customize-set-variable 'helm-ff-lynx-style-map t)
+(customize-set-variable 'helm-imenu-lynx-style-map t)
+(customize-set-variable 'helm-semantic-lynx-style-map t)
+(customize-set-variable 'helm-occur-use-ioccur-style-keys t)
+(customize-set-variable 'helm-grep-use-ioccur-style-keys t)

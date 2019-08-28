@@ -1,5 +1,5 @@
-;; Key binding definition file
 ;; ~/.emacs.d/keys.el
+;; Key binding definition file
 ;; Author : Kuzma Ludovic
 
 ;;
@@ -111,6 +111,17 @@
 
 ;; M-? : Pop stack
 (define-key helm-gtags-mode-map (kbd "M-?") 'helm-gtags-pop-stack)
+
+;; Restore the old left, right arrow key behavior of helm
+
+(define-key helm-map (kbd "<left>") 'helm-previous-source)
+(define-key helm-map (kbd "<right>") 'helm-next-source)
+
+(customize-set-variable 'helm-ff-lynx-style-map t)
+(customize-set-variable 'helm-imenu-lynx-style-map t)
+(customize-set-variable 'helm-semantic-lynx-style-map t)
+(customize-set-variable 'helm-occur-use-ioccur-style-keys t)
+(customize-set-variable 'helm-grep-use-ioccur-style-keys t)
 
 ;;
 ;; Functions-args mode

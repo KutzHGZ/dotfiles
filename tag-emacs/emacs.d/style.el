@@ -1,5 +1,5 @@
-;; Emacs style definition file
 ;; ~/.emacs.d/style.el
+;; Emacs style definition file
 ;; Auhtor : Kuzma Ludovic
 
 ;;
@@ -19,6 +19,10 @@
       (tool-bar-mode -1)
       (tooltip-mode -1)
       (scroll-bar-mode -1)))
+
+;; Display line and column at the bottom
+(line-number-mode t)
+(column-number-mode t)
 
 ;;
 ;; Colors
@@ -91,6 +95,10 @@
 ;; Ident with case label
 (c-set-offset 'case-label '+)
 
+;;
+;; White spaces
+;;
+
 (require 'whitespace)
 
 ;; Highlight above 80 column and trailing spaces
@@ -124,9 +132,9 @@
 
 (global-whitespace-mode t)
 
-;; Display line and column at the bottom
-(line-number-mode t)
-(column-number-mode t)
+;;
+;; Column line number and highlight
+;;
 
 ;; Display line number left margin
 (require 'nlinum)
@@ -158,3 +166,13 @@
 ;; Legacy emacs linum has performance issues
 ;; (global-linum-mode t)
 
+;;
+;; Doxygen highlight
+;;
+
+(require 'highlight-doxygen)
+
+;; Enable doxygen highlight for some major modes
+(add-hook 'c-mode-hook 'highlight-doxygen-mode)
+(add-hook 'c++-mode-hook 'highlight-doxygen-mode)
+(add-hook 'java-mode-hook 'highlight-doxygen-mode)

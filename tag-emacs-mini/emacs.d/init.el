@@ -1,5 +1,5 @@
-;; Emacs init file
 ;; ~/.emacs.d/init.el
+;; Emacs init file
 ;; Author : Kuzma Ludovic
 
 ;;
@@ -17,6 +17,10 @@
 (defconst user-backup-directory
   (concat user-emacs-directory "/backup"))
 
+;; Define user auto save directory
+(defconst user-autosave-directory
+  (concat user-emacs-directory "/autosave"))
+
 ;; Define user style file
 (defconst user-style-file
   (concat user-emacs-directory "/style.el"))
@@ -29,16 +33,20 @@
 (defconst user-alias-file
   (concat user-emacs-directory "/alias.el"))
 
-;; Define user packages
-(defconst user-packages
-  '(helm))
+;; Make user directories
 
-;; Make directory
 (if (not (file-exists-p user-emacs-directory))
     (make-directory user-emacs-directory))
 
 (if (not (file-exists-p user-backup-directory))
     (make-directory user-backup-directory))
+
+(if (not (file-exists-p user-autosave-directory))
+	(make-directory user-autosave-directory))
+
+;;
+;; Global configuration
+;;
 
 ;; Always prefer UTF-8
 (prefer-coding-system 'utf-8)
@@ -51,14 +59,14 @@
 (setq inhibit-startup-message t)
 
 ;; Custom scratch message and mode
-(setq initial-major-mode 'c-mode)
+(setq initial-major-mode 'c++-mode)
 
 (setq initial-scratch-message "\
 /*
  * Welcome to Emacs
  * Configuration author : Ludovic Kuzma
  * Installed packages : helm
- * Version : 1.0.0-Basic
+ * Version : 1.1.0-Basic
  * Default c identation : k&r
  */
 ")
@@ -74,11 +82,28 @@
 
 ;; Set backup files directory
 (setq backup-directory-alist
-      `((".*" . ,user-backup-directory)))
+      `((".*" . ,(file-name-as-directory user-backup-directory))))
+
+;; Enable auto save
+(setq auto-save-default t)
 
 ;; Set auto save file directory
 (setq auto-save-file-name-transforms
-      `((".*" ,user-backup-directory t)))
+      `((".*" ,(file-name-as-directory user-autosave-directory) t)))
+
+;; Do not create auto-save-list files and directories
+(setq auto-save-list-file-prefix nil)
+
+;; Set default man path
+(setq woman-manpath '("/usr/man" "/usr/share/man" "/usr/local/man"))
+
+;;
+;; Package configuration
+;;
+
+;; Define user packages
+(defconst user-packages
+  '(helm))
 
 ;; Setup package management
 (require 'package)
@@ -112,8 +137,16 @@
 (setq helm-split-window-in-side-p t)
 (setq helm-move-to-line-cycle-in-source t)
 
-(helm-autoresize-mode 1)
-(helm-mode 1)
+(helm-autoresize-mode t)
+(helm-mode t)
+
+;; FreeBSD man command workaround for helm man woman
+(defvar man-command-args
+  (when (string-prefix-p "berkeley" (symbol-name system-type) t)
+	"%s"))
+
+(when man-command-args
+  (setq helm-man-format-switches man-command-args))
 
 ;; Load style
 (if (file-exists-p user-style-file)

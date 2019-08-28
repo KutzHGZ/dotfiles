@@ -2,6 +2,10 @@
 ;; Emacs init file
 ;; Author : Kuzma Ludovic
 
+;;
+;; Version : full
+;;
+
 ;; Check emacs version
 (when (< emacs-major-version 25)
   (error "Emacs version 25 or higher is required"))
@@ -16,6 +20,10 @@
 ;; Define user backup directory
 (defconst user-backup-directory
   (concat user-emacs-directory "/backup"))
+
+;; Define user auto save directory
+(defconst user-autosave-directory
+  (concat user-emacs-directory "/autosave"))
 
 ;; Define user semanticdb directory
 (defconst user-semanticdb-directory
@@ -45,12 +53,16 @@
 (defconst user-note-file
   (concat user-org-directory "/note.org"))
 
-;; Make user directory
+;; Make user directories
+
 (if (not (file-exists-p user-emacs-directory))
     (make-directory user-emacs-directory))
 
 (if (not (file-exists-p user-backup-directory))
     (make-directory user-backup-directory))
+
+(if (not (file-exists-p user-autosave-directory))
+	(make-directory user-autosave-directory))
 
 (if (not (file-exists-p user-semanticdb-directory))
     (make-directory user-semanticdb-directory))
@@ -73,18 +85,19 @@
 (setq inhibit-startup-message t)
 
 ;; Custom scratch message and mode
-(setq initial-major-mode 'c-mode)
+(setq initial-major-mode 'c++-mode)
 
 (setq initial-scratch-message "\
-/**
+/*
  * Welcome to Emacs
  * Author : Ludovic Kuzma
  * Installed packages :
  * [Global] : org, nlinum, nlinum-hl
- * [Coding] : function-args, helm, helm-gtags, clang-format
+ * [Coding] : function-args, helm, helm-gtags, highlight-doxygen,
+ * clang-format
  * [Lang]   : rust-mode, perl6-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode
- * Version : 1.5.1-Full
+ * Version : 1.6.0-Full
  * Default c identation : k&r
  */
 ")
@@ -100,11 +113,17 @@
 
 ;; Set backup files directory
 (setq backup-directory-alist
-      `((".*" . ,user-backup-directory)))
+      `((".*" . ,(file-name-as-directory user-backup-directory))))
+
+;; Enable auto save
+(setq auto-save-default t)
 
 ;; Set auto save file directory
 (setq auto-save-file-name-transforms
-      `((".*" ,user-backup-directory t)))
+      `((".*" ,(file-name-as-directory user-autosave-directory) t)))
+
+;; Do not create auto-save-list files and directories
+(setq auto-save-list-file-prefix nil)
 
 ;; Set default man path
 (setq woman-manpath '("/usr/man" "/usr/share/man" "/usr/local/man"))
@@ -117,9 +136,10 @@
 (defconst user-packages
   '(helm
 	helm-gtags
+	function-args
 	nlinum
 	nlinum-hl
-	function-args
+	highlight-doxygen
 	org
 	rust-mode
 	perl6-mode
@@ -195,6 +215,14 @@
 (helm-autoresize-mode t)
 (helm-mode t)
 
+;; FreeBSD man command workaround for helm man woman
+(defvar man-command-args
+  (when (string-prefix-p "berkeley" (symbol-name system-type) t)
+	"%s"))
+
+(when man-command-args
+  (setq helm-man-format-switches man-command-args))
+
 ;; Setup helm-gtags
 (require 'helm-gtags)
 
@@ -207,14 +235,6 @@
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 (add-hook 'asm-mode-hook 'helm-gtags-mode)
 (add-hook 'java-mode-hook 'helm-gtags-mode)
-
-;; FreeBSD man command workaround for helm man woman
-(defvar man-command-args
-  (when (string-prefix-p "berkeley" (symbol-name system-type) t)
-	"%s"))
-
-(when man-command-args
-  (setq helm-man-format-switches man-command-args))
 
 ;; Setup helm semantic
 (require 'helm-semantic)
@@ -256,8 +276,9 @@
 ;; Set org-mode for ORG files
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
-;; Set c++-mode for CUDA files
+;; Set c++-mode for CUDA, Capnp files
 (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.capnp\\'" . c++-mode))
 
 ;; Set c-mode for OpenCL files
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode))
@@ -310,4 +331,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(clang-format web-mode markdown-mode yaml-mode cmake-mode perl6-mode rust-mode function-args nlinum-hl nlinum helm-gtags helm))))
+	(clang-format web-mode markdown-mode yaml-mode cmake-mode perl6-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm))))
