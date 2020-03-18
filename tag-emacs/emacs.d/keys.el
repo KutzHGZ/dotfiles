@@ -2,6 +2,9 @@
 ;; Key binding definition file
 ;; Author : Kuzma Ludovic
 
+;; In order to show the current keybing of emacs you can use :
+;; M-x describe-key <macro>
+
 ;;
 ;; Global
 ;;
@@ -9,6 +12,10 @@
 ;; Disable C-z in window mode
 (when window-system
     (global-unset-key (kbd "C-z")))
+
+;; Disable right alt meta bind
+;; Useful on macOS in order to use Alt Gr on a PC keybord
+(setq ns-right-alternate-modifier 'none)
 
 ;; C-c <space> : select all the current buffer
 (global-set-key (kbd "C-c SPC") 'mark-whole-buffer)
@@ -26,6 +33,22 @@
 ;; M-<left>/M-<right> : Move to prev/next list
 (global-set-key (kbd "M-<left>") 'backward-list)
 (global-set-key (kbd "M-<right>") 'forward-list)
+
+;; C-<left>/C-<right> : Move to prev/next paragraph
+(global-set-key (kbd "C-<up>") 'backward-paragraph)
+(global-set-key (kbd "C-<down>") 'forward-paragraph)
+
+;; C-<left>/C-<right> : Move to prev/next word
+(global-set-key (kbd "C-<left>") 'left-word)
+(global-set-key (kbd "C-<right>") 'right-word)
+
+;; M-</M-> : Move to beginning/end of buffer
+(global-set-key (kbd "M-<") 'beginning-of-buffer)
+(global-set-key (kbd "M->") 'end-of-buffer)
+
+;; C-a/C-e : Move to beginning/end of line
+(global-set-key (kbd "C-a") 'move-beginning-of-line)
+(global-set-key (kbd "C-e") 'move-end-of-line)
 
 ;; C-c a : goto the begin of the function
 (global-set-key (kbd "C-c a") 'beginning-of-defun)

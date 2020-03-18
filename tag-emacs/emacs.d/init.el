@@ -97,7 +97,7 @@
  * clang-format
  * [Lang]   : rust-mode, perl6-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode
- * Version : 1.6.0-Full
+ * Version : 1.6.1-Full
  * Default c identation : k&r
  */
 ")

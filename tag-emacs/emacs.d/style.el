@@ -43,10 +43,11 @@
 
 ;; User font list
 (defconst user-font-list
-  '("DejaVu Sans Mono-10:weigth=normal"
-    "DejaVu Sans-10:weight=normal"
-    "Consolas-10:weight=normal"
-    "Courier-10:weight=normal"))
+  '("DejaVu Sans Mono-10:weigth=normal" ;; Default Linux font
+	"DejaVu Sans-10:weight=normal"
+	"Consolas-10:weight=normal"
+	"Andale Mono-14:weight=normal" ;; Default macOS font
+	"Courier-14:weight=normal"))
 
 (defvar default-font nil)
 
