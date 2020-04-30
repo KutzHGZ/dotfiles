@@ -203,8 +203,8 @@ set_freebsd_ls_colors() {
 	export LSCOLORS="gxfxcxbxdxegedabagacad"
 }
 
-case $(get_os_lower) in
-	freebsd|macos)
+case "$(get_os_lower)" in
+	freebsd|darwin)
 		set_freebsd_ls_colors
 	;;
 	linux)
@@ -251,8 +251,8 @@ set_linux_aliases() {
 
 set_aliases
 
-case $(get_os_lower) in
-	freebsd|macos)
+case "$(get_os_lower)" in
+	freebsd|darwin)
 		set_freebsd_aliases
 	;;
 	linux)
