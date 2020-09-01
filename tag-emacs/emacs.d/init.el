@@ -95,9 +95,9 @@
  * [Global] : org, nlinum, nlinum-hl
  * [Coding] : function-args, helm, helm-gtags, highlight-doxygen,
  * clang-format
- * [Lang]   : rust-mode, perl6-mode, cmake-mode, yaml-mode,
+ * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode
- * Version : 1.6.1-Full
+ * Version : 1.7.0-Full
  * Default c identation : k&r
  */
 ")
@@ -132,6 +132,11 @@
 ;; Package configuration
 ;;
 
+;; On older systems (Debian) gpg is unable to update their elpa keys
+;; See http://elpa.gnu.org/packages/gnu-elpa-keyring-update.html
+;; We have to disable the signature check in this case
+;; (setq package-check-signature nil)
+
 ;; Define user packages
 (defconst user-packages
   '(helm
@@ -142,7 +147,6 @@
 	highlight-doxygen
 	org
 	rust-mode
-	perl6-mode
 	cmake-mode
 	yaml-mode
 	markdown-mode
@@ -153,11 +157,11 @@
 (require 'package)
 
 (add-to-list 'package-archives
-			 '("gnu" . "http://elpa.gnu.org/packages/"))
+			 '("gnu" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives
-			 '("melpa" . "http://melpa.milkbox.net/packages/"))
+			 '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
-			 '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+			 '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
 (package-initialize)
 
@@ -331,4 +335,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(clang-format web-mode markdown-mode yaml-mode cmake-mode perl6-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm))))
+	(clang-format web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm))))
