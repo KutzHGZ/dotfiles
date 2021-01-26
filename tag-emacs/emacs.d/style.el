@@ -65,7 +65,7 @@
 ;; Identation
 ;;
 
-;; Use tabs for indent
+;; Use tabs for indentation
 (setq-default indent-tabs-mode t)
 
 ;; Set tab width
@@ -80,21 +80,39 @@
 ;; Do not add padding inside <script></script>
 (setq web-mode-script-padding 0)
 
-;; Default ident for c-mode
-(setq c-default-style "k&r")
+;; Default identation for c-mode
+(setq c-default-style "stroustrup")
+;; (setq c-default-style "k&r")
 ;; (setq c-default-style "gnu")
 
 ;; Ident macros as regular c
 ;; (c-set-offset (quote cpp-macro) 0 nil)
 
-;; Do not ident namespace {}
+;; Do not indent namespace {}
 (c-set-offset 'innamespace 0)
 
-;; Do not ident extern "C" {}
+;; Do not indent extern "C" {}
 (c-set-offset 'inextern-lang 0)
 
-;; Ident with case label
+;; Ident switch-case labels
 (c-set-offset 'case-label '+)
+
+;; Do not ident inline blocks {}
+(c-set-offset 'inline-open 0)
+
+;;
+;; Alignement
+;;
+
+;; Advice align to only use spaces
+(defadvice align (around align-spaces activate)
+  (let ((indent-tabs-mode nil))
+    ad-do-it))
+
+;; Advice align-regexp to only use spaces
+(defadvice align-regexp (around align-regexp-spaces activate)
+  (let ((indent-tabs-mode nil))
+    ad-do-it))
 
 ;;
 ;; White spaces
@@ -157,7 +175,7 @@
   (nlinum-mode -1))
 
 ;; Disable nlinum for some major modes
-(add-hook 'text-mode-hook 'disable-nlinum)
+;; (add-hook 'text-mode-hook 'disable-nlinum)
 (add-hook 'hexl-mode-hook 'disable-nlinum)
 (add-hook 'term-mode-hook 'disable-nlinum)
 (add-hook 'eshell-mode-hook 'disable-nlinum)

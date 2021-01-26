@@ -17,6 +17,9 @@
 ;; Useful on macOS in order to use Alt Gr on a PC keybord
 (setq ns-right-alternate-modifier 'none)
 
+;; C-<tab> : align the current region
+(global-set-key (kbd "C-<tab>") 'align-current)
+
 ;; C-c <space> : select all the current buffer
 (global-set-key (kbd "C-c SPC") 'mark-whole-buffer)
 

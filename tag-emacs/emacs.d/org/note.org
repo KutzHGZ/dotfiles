@@ -2,12 +2,12 @@
 ** Information
 
 Author : Ludovic Kuzma
-Version : 1.2.1
+Version : 1.2.2
 
 ** Emacs
 *** Emacs Builtin keys
 
-<tab> : In c-mode indent region
+<tab> : In c-mode indent the region
 
 C-g : Cancel command
 
@@ -93,6 +93,9 @@ C-x 3 : Split the screen verticaly
 C-x 1 : Close all screen splits except the current one
 C-x 0 : Close the current screen split
 
+C-h f : Describe a function
+C-h k : Describe a key
+
 C-x C-c : Quit emacs
 
 *** Org mode keys
@@ -163,6 +166,9 @@ C-x v = : Diff of the current file
 
 *** Custom keys
 
+<backtab> : Run clang format on the selected region
+C-<tab> : Align the current region (see align-current)
+
 C-x C-b : Switch current buffer
 
 M-T : Open todo file
@@ -185,7 +191,15 @@ C-c s : Delete trailing white space in region
 C-c t : Run terminal
 C-c k : Kill all buffers with query
 
+*** Emacs commands
+
+Type M-x to browse and run emacs commands
+
+vc-annotate : Launch version control interface
+replace-regex : Replace string with regex support
+align-regex : Align the current region with regex support
+
 ** C Coding Style
 
-Kernighan and Ritchie coding style with some custom configuration
+Kernighan and Ritchie version Stroustrup coding style with some custom configuration
 to match Mozzila coding style.
