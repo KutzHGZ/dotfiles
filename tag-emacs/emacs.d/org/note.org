@@ -199,6 +199,14 @@ vc-annotate : Launch version control interface
 replace-regex : Replace string with regex support
 align-regex : Align the current region with regex support
 
+c-set-offset : Display the offset variable used on the current region and
+prompt in order to change it, the special symbols used :
+- "+" : c-basic-offset +1
+- "-" : c-basic-offset -1
+- "0" : no offset
+- "++" : c-basic-offset +2
+- "--" : c-basic-offset -2
+
 ** C Coding Style
 
 Kernighan and Ritchie version Stroustrup coding style with some custom configuration
