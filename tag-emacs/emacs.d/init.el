@@ -98,7 +98,7 @@
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode
  * Version : 1.7.1-Full
- * Default c identation : k&r
+ * Default C/C++ identation : Stroustrup
  */
 ")
 

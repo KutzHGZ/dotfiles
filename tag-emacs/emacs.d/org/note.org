@@ -95,6 +95,8 @@ C-x 0 : Close the current screen split
 
 C-h f : Describe a function
 C-h k : Describe a key
+C-h o : Describe a symbol
+C-h v : Describe a variable
 
 C-x C-c : Quit emacs
 

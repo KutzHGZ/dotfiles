@@ -68,11 +68,11 @@
 ;; Use tabs for indentation
 (setq-default indent-tabs-mode t)
 
-;; Set tab width
+;; Set tab width to 4 characters
 (setq-default tab-width 4)
-;; Built-in offsets
-(defvaralias 'c-basic-offset 'tab-width)
-(defvaralias 'cperl-indent-level 'tab-width)
+;; Set the basic offsets to tab-width (4) in order to use tabs for indentation
+(setq-default c-basic-offset tab-width)
+(setq-default cperl-indent-level tab-width)
 ;; web-mode offsets (HTML, CSS, [JS, PHP, ...])
 (setq web-mode-markup-indent-offset tab-width)
 (setq web-mode-css-indent-offset tab-width)
@@ -85,7 +85,7 @@
 ;; (setq c-default-style "k&r")
 ;; (setq c-default-style "gnu")
 
-;; Ident macros as regular c
+;; Indent macros as regular c
 ;; (c-set-offset (quote cpp-macro) 0 nil)
 
 ;; Do not indent namespace {}
@@ -104,12 +104,12 @@
 ;; Alignement
 ;;
 
-;; Advice align to only use spaces
+;; Advice align to use only spaces
 (defadvice align (around align-spaces activate)
   (let ((indent-tabs-mode nil))
     ad-do-it))
 
-;; Advice align-regexp to only use spaces
+;; Advice align-regexp to use only spaces
 (defadvice align-regexp (around align-regexp-spaces activate)
   (let ((indent-tabs-mode nil))
     ad-do-it))
