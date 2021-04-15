@@ -35,6 +35,12 @@
 ;; Selection highlight color
 (set-face-background 'region "dark blue")
 
+;;
+;; Font
+;;
+
+(require 'cl)
+
 ;; Default fonts
 (defconst user-font-list
   '("DejaVu Sans Mono-10:weigth=normal"
@@ -44,7 +50,6 @@
 
 (defvar default-font nil)
 
-(require 'cl)
 (setq default-font
   (find-if (lambda (ft) (find-font (font-spec :name ft))) user-font-list))
 
@@ -52,18 +57,25 @@
     (when (not default-font)
       (setq default-font (nth 1 (x-list-fonts "*")))))
 
-(set-face-attribute 'default nil :font default-font)
+(when default-font
+  (set-face-attribute 'default nil :font default-font))
 
-;; Use tabs for indent
+;;
+;; Identation
+;;
+
+;; Use tabs for indentation
 (setq-default indent-tabs-mode t)
 
-;; Set tab width
+;; Set tab width to 4 characters
 (setq-default tab-width 4)
-(defvaralias 'c-basic-offset 'tab-width)
-(defvaralias 'cperl-indent-level 'tab-width)
+;; Set the basic offsets to tab-width (4) in order to use tabs for indentation
+(setq-default c-basic-offset tab-width)
+(setq-default cperl-indent-level tab-width)
 
 ;; Default ident for c-mode
-(setq c-default-style "k&r")
+(setq c-default-style "stroustrup")
+;; (setq c-default-style "k&r")
 ;; (setq c-default-style "gnu")
 
 ;; Ident macros as regular c
@@ -77,6 +89,20 @@
 
 ;; Ident with case label
 (c-set-offset 'case-label '+)
+
+;;
+;; Alignement
+;;
+
+;; Advice align to use only spaces
+(defadvice align (around align-spaces activate)
+  (let ((indent-tabs-mode nil))
+    ad-do-it))
+
+;; Advice align-regexp to use only spaces
+(defadvice align-regexp (around align-regexp-spaces activate)
+  (let ((indent-tabs-mode nil))
+    ad-do-it))
 
 ;;
 ;; White spaces
@@ -114,7 +140,35 @@
 (global-whitespace-mode t)
 
 ;;
-;; Column line number
+;; Column line number and highlight
 ;;
 
-(global-linum-mode 1)
+;; Display line number left margin
+(require 'nlinum)
+(require 'nlinum-hl)
+
+;; Highlight current line
+(setq nlinum-highlight-current-line t)
+
+;; (defun disable-nlinum-mode ()
+;; 	"Disable nlinum mode when the buffer is to large or contains *"
+;; 	(when (or (string-match "*" (buffer-name))
+;; 			  (> (buffer-size) 3145728))
+;; 	  (nlinum-mode -1)))
+
+;; (add-hook 'c-mode-hook 'disable-nlinum-mode)
+
+(defun disable-nlinum ()
+  "Disable nlinum mode"
+  (nlinum-mode -1))
+
+;; Disable nlinum for some major modes
+;; (add-hook 'text-mode-hook 'disable-nlinum)
+(add-hook 'hexl-mode-hook 'disable-nlinum)
+(add-hook 'term-mode-hook 'disable-nlinum)
+(add-hook 'eshell-mode-hook 'disable-nlinum)
+
+(global-nlinum-mode t)
+
+;; Legacy emacs linum has performance issues
+;; (global-linum-mode t)

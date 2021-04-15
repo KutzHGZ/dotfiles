@@ -7,8 +7,12 @@
 ;;
 
 ;; Check emacs version
-(if (< emacs-major-version 24)
-    (error "Emacs version 24 or higher is required"))
+(if (< emacs-major-version 27)
+    (error "Emacs version 27 or higher is required"))
+
+;;
+;; User directories
+;;
 
 ;; Define user directory
 (defconst user-emacs-directory "~/.emacs.d")
@@ -65,9 +69,10 @@
 /*
  * Welcome to Emacs
  * Configuration author : Ludovic Kuzma
- * Installed packages : helm
- * Version : 1.1.0-Basic
- * Default c identation : k&r
+ * Installed packages : helm, nlinum, nlinum-hl,
+ * yaml-mode, markdown-mode
+ * Version : 1.2.0-Basic
+ * Default C/C++ identation : Stroustrup
  */
 ")
 
@@ -103,7 +108,11 @@
 
 ;; Define user packages
 (defconst user-packages
-  '(helm))
+  '(helm
+	nlinum
+	nlinum-hl
+	yaml-mode
+	markdown-mode))
 
 ;; Setup package management
 (require 'package)
@@ -111,14 +120,18 @@
 (add-to-list 'package-archives
 	     '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/"))
+	     '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
-	     '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+	     '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
 (package-initialize)
 
 (unless package-archive-contents
   (package-refresh-contents))
+
+;;
+;; Module configuration
+;;
 
 ;; Auto install needed user package
 (mapc
@@ -159,3 +172,24 @@
 ;; Load aliases
 (if (file-exists-p user-alias-file)
     (load user-alias-file))
+
+;;
+;; Custom
+;; Only one instance allowed
+;; Do not move to external files
+;;
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(linum ((t (:inherit (shadow default) :foreground "dim gray"))))
+ '(nlinum-current-line ((t (:inherit linum :background "lime green" :foreground "black")))))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(markdown-mode yaml-mode nlinum-hl nlinum helm)))
