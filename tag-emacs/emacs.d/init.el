@@ -7,8 +7,8 @@
 ;;
 
 ;; Check emacs version
-(when (< emacs-major-version 25)
-  (error "Emacs version 25 or higher is required"))
+(when (< emacs-major-version 27)
+  (error "Emacs version 27 or higher is required"))
 
 ;;
 ;; User directories
@@ -97,7 +97,7 @@
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode
- * Version : 1.7.1-Full
+ * Version : 1.8.0-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -334,5 +334,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-	(clang-format web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm))))
+   '(clang-format web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm)))
