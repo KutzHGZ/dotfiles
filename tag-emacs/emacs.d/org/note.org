@@ -97,6 +97,7 @@ C-h f : Describe a function
 C-h k : Describe a key
 C-h o : Describe a symbol
 C-h v : Describe a variable
+C-h m : Describe a mode
 
 C-x C-c : Quit emacs
 

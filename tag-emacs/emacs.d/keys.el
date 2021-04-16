@@ -164,3 +164,60 @@
 ;; backtab : Clang format region
 (global-set-key (kbd "<backtab>") 'clang-format-region)
 
+;;
+;; Dired mode
+;;
+
+;; C-x C-d : Show dired buffer for the current working directory
+(global-set-key (kbd "C-x C-d") 'dired-jump)
+
+;; DEL : Move up to the parent directory
+(define-key dired-mode-map (kbd "<DEL>") 'dired-up-directory)
+
+;; h : Hide and show details on files
+(define-key dired-mode-map (kbd "h") 'dired-hide-details-mode)
+
+;; ; : Insert a directory subtree of depth 1 into the buffer
+(define-key dired-mode-map (kbd ";") 'dired-subtree-insert)
+;; , : Remove a directory subtree from the buffer
+(define-key dired-mode-map (kbd ",") 'dired-subtree-remove)
+;; <tab> : Expend/hide directory subtrees for the selected directory
+(define-key dired-mode-map (kbd "<tab>") 'dired-subtree-cycle)
+
+;; C-<up>/C-<down> : Move to prev/next directory line
+(define-key dired-mode-map (kbd "C-<up>") 'dired-prev-dirline)
+(define-key dired-mode-map (kbd "C-<down>") 'dired-next-dirline)
+
+;; M-<left>/M-<right> : Move up/down the current directory subtree
+(define-key dired-mode-map (kbd "M-<left>") 'dired-subtree-up)
+(define-key dired-mode-map (kbd "M-<right>") 'dired-subtree-down)
+
+;; M-<up>/M-<down> : Move to beginning/end of the directory subtree
+(define-key dired-mode-map (kbd "M-<up>") 'dired-subtree-beginning)
+(define-key dired-mode-map (kbd "M-<down>") 'dired-subtree-end)
+
+;; C-k : Kill (hide) the current line
+(define-key dired-mode-map (kbd "C-k") 'dired-kill-line)
+
+;; C-_ : Undo the last modification done
+(define-key dired-mode-map (kbd "C-_") 'dired-undo)
+
+;;
+;; Version control mode
+;;
+
+;; Define the new prefix command C-v
+(define-prefix-command 'version-control-map)
+(global-set-key (kbd "C-v") 'version-control-map)
+
+;; C-v d : Show a version control diff of the current buffer
+(define-key version-control-map (kbd "d") 'vc-diff)
+
+;; C-v d : Show the version control logs of the current buffer
+(define-key version-control-map (kbd "l") 'vc-print-log)
+
+;; C-v L : Show the version control logs of the project
+(define-key version-control-map (kbd "L") 'vc-print-root-log)
+
+;; C-v a : Annotate the current buffer with version control information
+(define-key version-control-map (kbd "a") 'vc-annotate)

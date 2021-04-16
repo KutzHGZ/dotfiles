@@ -92,12 +92,12 @@
  * Welcome to Emacs
  * Author : Ludovic Kuzma
  * Installed packages :
- * [Global] : org, nlinum, nlinum-hl
+ * [Global] : org, nlinum, nlinum-hl, dired-subtree
  * [Coding] : function-args, helm, helm-gtags, highlight-doxygen,
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode
- * Version : 1.8.0-Full
+ * Version : 1.9.0-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -151,6 +151,7 @@
 	yaml-mode
 	markdown-mode
 	web-mode
+	dired-subtree
 	clang-format))
 
 ;; Setup package management
@@ -270,8 +271,21 @@
 ;; Auto exending (d/ -> <div></div>)
 (setq web-mode-enable-auto-expanding nil)
 
-;; web-mode gtags (PHP, JS)
+;; Enable gtags for web-mode (PHP, JS)
 (add-hook 'web-mode-hook 'helm-gtags-mode)
+
+;; Setup dired
+(require 'dired)
+(require 'dired-aux)
+(require 'dired-subtree)
+
+;; Hide dired details
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+;; Isearch (C-s, C-r) only searches for filenames
+(add-hook 'dired-mode-hook 'dired-isearch-filenames-mode)
+
+;; Set maximum recusrsive directory open depth
+(setq dired-subtree-cycle-depth 8)
 
 ;;
 ;; Custom files
@@ -334,4 +348,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(clang-format web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm)))
+   '(clang-format dired-subtree web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm)))
