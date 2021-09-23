@@ -92,6 +92,12 @@
 	C-x 3 : Split the screen verticaly
 	C-x 1 : Close all screen splits except the current one
 	C-x 0 : Close the current screen split
+	C-x o : Cycle through screen splits
+
+	C-x 5 2 : Create a frame
+	C-x 5 1 : Close all frames except the current one
+	C-x 5 o : Cycle through frames
+	C-x 5 b : Select a buffer in another frame
 
 	C-h f : Describe a function
 	C-h k : Describe a key
