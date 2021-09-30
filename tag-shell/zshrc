@@ -125,29 +125,40 @@ if _terminal_256color; then
 	fg[medium_blue]=$'\e[38;5;27m'
 	fg[medium_red]=$'\e[38;5;124m'
 	fg[medium_green]=$'\e[38;5;64m'
+
+	bg[dark_grey]=$'\e[48;5;233m'
+	bg[dark_blue]=$'\e[48;5;17m'
 else
 	fg[medium_magenta]=$fg[magenta]
 	fg[medium_blue]=$fg[blue]
 	fg[medium_red]=$fg[red]
 	fg[medium_green]=$fg[green]
+
+	bg[dark_grey]=$bg[grey]
+	bg[dark_blue]=$bg[blue]
 fi
 
-get_custom_prompt() {
+get_left_prompt() {
 	local prompt=""
 
+	# Background color
+	prompt+="%{${bg[dark_grey]}%}"
+
 	# Current User
-	prompt+="%{$fg[green]%}%n%{$reset_color%}"
-	prompt+="%{$fg[white]%}@%{$reset_color%}"
+	prompt+="%{${fg[green]}%}%n"
+	prompt+="%{${fg[white]}%}@"
 
 	# Current host
-	prompt+="%{$fg[medium_magenta]%}%m%{$reset_color%}"
-	prompt+="%{$fg[white]%}:%{$reset_color%}"
+	prompt+="%{${fg[medium_magenta]}%}%m"
+	prompt+="%{${fg[white]}%}:"
 
 	# Current working directory max depth is 2
-	prompt+="%{$fg[medium_blue]%}%2~%{$reset_color%}"
+	prompt+="%{${fg[medium_blue]}%}%2~"
+	prompt+="%{${reset_color}%} "
 
 	# Prompt terminator
-	prompt+="%(?/%{$fg[white]%}/%{$fg[red]%}) "
+	prompt+="%{${bg[black]}%}"
+	prompt+="%(?/%{${fg[white]}%}/%{${fg[red]}%})"
 
 	# Super user prompt
 	if [ $(id -u) -eq 0 ]; then
@@ -156,14 +167,28 @@ get_custom_prompt() {
 		prompt+="$"
 	fi
 
-	prompt+=" %{$reset_color%}"
+	prompt+="%{${fg[white]}%}>"
+	prompt+="%{${reset_color}%} "
 
-	echo "${prompt}"
+	printf '%s' "${prompt}"
 }
 
-PROMPT=$(get_custom_prompt)
+get_right_prompt() {
+	local prompt=""
 
-unfunction get_custom_prompt
+	prompt+="%{${bg[black]}%}%{${fg[white]}%}"
+	# Return status if the last command
+	prompt+="[%?]"
+	prompt+="%{${reset_color}%}"
+
+	printf '%s' "${prompt}"
+}
+
+PROMPT="$(get_left_prompt)"
+RPROMPT="$(get_right_prompt)"
+
+unfunction get_left_prompt
+unfunction get_right_prompt
 
 # Change cursor color
 
@@ -194,6 +219,16 @@ zle-line-finish() {
 zle -N zle-keymap-select
 zle -N zle-line-init
 zle -N zle-line-finish
+
+# Change cursor style
+
+set_cursor_style() {
+	printf '\e[3 q' # horizontal bar
+}
+
+set_cursor_style
+
+unfunction set_cursor_style
 
 # Change command colors
 
