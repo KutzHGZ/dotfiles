@@ -25,6 +25,13 @@
 (column-number-mode t)
 
 ;;
+;; Cursor
+;;
+
+;; Set horizontal bar 3 pixel height
+(setq cursor-type '(hbar . 3))
+
+;;
 ;; Colors
 ;;
 
