@@ -29,7 +29,7 @@
 ;;
 
 ;; Set horizontal bar 3 pixel height
-(setq cursor-type '(hbar . 3))
+(setq-default cursor-type '(hbar . 2))
 
 ;;
 ;; Colors

@@ -97,7 +97,7 @@
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode
- * Version : 1.9.2-Full
+ * Version : 1.9.3-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
