@@ -16,19 +16,19 @@ _terminal_tmux() {
 }
 
 get_os_lower() {
-	echo "${$(uname):l}"
+	printf '%s' "${$(uname):l}"
 }
 
 emacs_installed() {
-	[ $(command -v "emacs") ]
+	command -v "emacs" >/dev/null 2>&1
 }
 
 mg_installed() {
-	[ $(command -v "mg") ]
+	command -v "mg" >/dev/null 2>&1
 }
 
 tmux_installed() {
-	[ $(command -v "tmux") ]
+	command -v "tmux" >/dev/null 2>&1
 }
 
 #
