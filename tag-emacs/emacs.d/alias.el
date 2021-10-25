@@ -10,5 +10,6 @@
 (defalias 'hexm 'hexl-mode)
 (defalias 'cm 'c-mode)
 (defalias 'cpm 'c++-mode)
+(defalias 'csm 'csharp-mode)
 (defalias 'jm 'java-mode)
 (defalias 'wm 'web-mode)

@@ -96,8 +96,8 @@
  * [Coding] : function-args, helm, helm-gtags, highlight-doxygen,
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
- * markdown-mode, web-mode
- * Version : 1.9.3-Full
+ * markdown-mode, web-mode, csharp-mode
+ * Version : 1.10.0-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -151,6 +151,7 @@
 	yaml-mode
 	markdown-mode
 	web-mode
+	csharp-mode
 	dired-subtree
 	clang-format))
 
@@ -291,15 +292,15 @@
 ;; Custom files
 ;;
 
-;; Set org-mode for ORG files
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+;; Set c-mode for OpenCL files
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode))
 
 ;; Set c++-mode for CUDA, Capnp files
 (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.capnp\\'" . c++-mode))
 
-;; Set c-mode for OpenCL files
-(add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode))
+;; Set csharp-mode for CS
+(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
 
 ;; Set web-mode for HTML, PHP, JS, JSON, CSS, SCSS
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
@@ -311,6 +312,9 @@
 
 ;; Set web-mode for Vue.js files
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
+
+;; Set org-mode for ORG files
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
 ;;
 ;; Load external files
@@ -348,4 +352,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(clang-format dired-subtree web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm)))
+   '(clang-format dired-subtree csharp-mode web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm)))
