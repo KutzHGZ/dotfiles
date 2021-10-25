@@ -265,7 +265,6 @@ set_aliases() {
 	alias mmv="noglob zmv -W"
 
 	if emacs_installed; then
-		alias mcs="emacs -nw --no-site-file"
 		alias qmcs="emacs -nw -Q"
 	fi
 
