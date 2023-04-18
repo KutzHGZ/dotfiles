@@ -71,7 +71,7 @@
  * Configuration author : Ludovic Kuzma
  * Installed packages : helm, nlinum, nlinum-hl,
  * yaml-mode, markdown-mode
- * Version : 1.2.0-Basic
+ * Version : 1.2.1-Basic
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -142,7 +142,6 @@
 
 ;; Setup helm
 (require 'helm)
-(require 'helm-config)
 
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))

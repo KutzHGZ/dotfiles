@@ -97,7 +97,7 @@
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode
- * Version : 1.10.0-Full
+ * Version : 1.10.1-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -210,7 +210,6 @@
 
 ;; Setup helm
 (require 'helm)
-(require 'helm-config)
 
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
