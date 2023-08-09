@@ -97,7 +97,7 @@
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode
- * Version : 1.10.1-Full
+ * Version : 1.10.2-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -301,10 +301,11 @@
 ;; Set csharp-mode for CS
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
 
-;; Set web-mode for HTML, PHP, JS, JSON, CSS, SCSS
+;; Set web-mode for HTML, PHP, JS, TS, JSON, CSS, SCSS
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
