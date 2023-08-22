@@ -96,8 +96,8 @@
  * [Coding] : function-args, helm, helm-gtags, highlight-doxygen,
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
- * markdown-mode, web-mode, csharp-mode
- * Version : 1.10.2-Full
+ * markdown-mode, web-mode, csharp-mode, python-mode
+ * Version : 1.11.0-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -152,6 +152,7 @@
 	markdown-mode
 	web-mode
 	csharp-mode
+	python-mode
 	dired-subtree
 	clang-format))
 
@@ -274,6 +275,14 @@
 ;; Enable gtags for web-mode (PHP, JS)
 (add-hook 'web-mode-hook 'helm-gtags-mode)
 
+;; Setup python-mode
+
+;; We must load the built-in python.el module before
+;; python-mode.el in order for the last one to override
+;; the major mode.
+(require 'python)
+(require 'python-mode)
+
 ;; Setup dired
 (require 'dired)
 (require 'dired-aux)
@@ -309,6 +318,10 @@
 (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+
+;; Set python-mode for Python files
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.py3\\'" . python-mode))
 
 ;; Set web-mode for Vue.js files
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
@@ -352,4 +365,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(clang-format dired-subtree csharp-mode web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm)))
+   '(clang-format dired-subtree python-mode csharp-mode web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm)))

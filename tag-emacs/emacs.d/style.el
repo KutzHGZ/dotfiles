@@ -80,13 +80,21 @@
 
 ;; Use tabs for indentation
 (setq-default indent-tabs-mode t)
-
 ;; Set tab width to 4 characters
 (setq-default tab-width 4)
+
 ;; Set the basic offsets to tab-width (4) in order to use tabs for indentation
 (setq-default c-basic-offset tab-width)
 (setq-default cperl-indent-level tab-width)
-;; web-mode offsets (HTML, CSS, [JS, PHP, ...])
+
+;; Use tabs for cmake-mode
+(setq cmake-tab-width tab-width)
+
+;; Use tabs for python-mode
+(setq py-indent-tabs-mode indent-tabs-mode)
+(setq py-indent-offset tab-width)
+
+;; Use tabs for web-mode (HTML, CSS, [JS, PHP, ...])
 (setq web-mode-markup-indent-offset tab-width)
 (setq web-mode-css-indent-offset tab-width)
 (setq web-mode-code-indent-offset tab-width)
@@ -95,11 +103,11 @@
 
 ;; Default identation for c-mode
 (setq c-default-style "stroustrup")
-;; (setq c-default-style "k&r")
-;; (setq c-default-style "gnu")
+;;(setq c-default-style "k&r")
+;;(setq c-default-style "gnu")
 
 ;; Indent macros as regular c
-;; (c-set-offset (quote cpp-macro) 0 nil)
+;;(c-set-offset (quote cpp-macro) 0 nil)
 
 ;; Do not indent namespace {}
 (c-set-offset 'innamespace 0)
