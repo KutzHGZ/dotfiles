@@ -97,6 +97,13 @@
 ;; (global-set-key (kbd "M-O") 'org-agenda)
 
 ;;
+;; Python mode
+;;
+
+;; Restore the backward word kill in python mode
+(define-key python-mode-map (kbd "C-<backspace>") 'backward-kill-word)
+
+;;
 ;; Helm mode
 ;;
 
