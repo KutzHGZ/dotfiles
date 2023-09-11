@@ -97,7 +97,7 @@
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 1.11.1-Full
+ * Version : 1.12.0-Full
  * Default C/C++ identation : Stroustrup
  */
 ")

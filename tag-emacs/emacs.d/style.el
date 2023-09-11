@@ -20,16 +20,17 @@
       (tooltip-mode -1)
       (scroll-bar-mode -1)))
 
-;; Display line and column at the bottom
-(line-number-mode t)
-(column-number-mode t)
-
 ;;
 ;; Cursor
 ;;
 
-;; Set horizontal bar 3 pixel height
+;; Set horizontal bar cursor style
 (setq-default cursor-type '(hbar . 2))
+
+;; Highlight matching parentheses
+;; Delay must be set before enabling the mode
+(setq show-paren-delay 0.5)
+(show-paren-mode t)
 
 ;;
 ;; Colors
@@ -175,6 +176,10 @@
 ;;
 ;; Column line number and highlight
 ;;
+
+;; Display line and column at the bottom
+(line-number-mode t)
+(column-number-mode t)
 
 ;; Display line number left margin
 (require 'nlinum)
