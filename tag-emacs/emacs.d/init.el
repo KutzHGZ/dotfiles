@@ -97,7 +97,7 @@
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 1.12.0-Full
+ * Version : 1.13.0-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -184,7 +184,19 @@
 
 ;; Setup org
 (require 'org)
+
 (setq org-agenda-files (list user-todo-file))
+
+(setq org-todo-keywords
+	  '((sequence "TODO(t)" "WORKING(w)" "FEEDBACK(f)" "BLOCKED(b)" "|" "DONE(d)" "CANCELLED(c)")))
+
+(setq org-todo-keyword-faces
+	  '(("TODO" . org-todo)
+		("WORKING" . "purple")
+		("FEEDBACK" . "yellow")
+		("BLOCKED" . "red")
+		("DONE" . org-done)
+		("CANCELLED" . "red")))
 
 ;; Setup semantic
 (require 'cedet)
