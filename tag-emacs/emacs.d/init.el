@@ -97,7 +97,7 @@
  * clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 1.13.0-Full
+ * Version : 1.13.1-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -198,10 +198,12 @@
 		("DONE" . org-done)
 		("CANCELLED" . "red")))
 
-;; Setup semantic
+;; Emacs development environment requirements
 (require 'cedet)
 (require 'eieio)
-(require 'cc-mode)
+(require 'ede)
+
+;; Setup semantic
 (require 'semantic)
 
 (setq semantic-default-save-directory user-semanticdb-directory)
@@ -220,6 +222,34 @@
 (global-semantic-idle-summary-mode t)
 
 (semantic-mode t)
+
+;; Setup c-mode, c++-mode
+(require 'cc-mode)
+
+;; Setup web-mode
+(require 'web-mode)
+
+;; Auto pairing (<?php ?>)
+(setq web-mode-enable-auto-pairing t)
+;; Auto opening HTML tags
+(setq web-mode-enable-auto-opening t)
+;; Auto closing HTML tags (<p></p>)
+(setq web-mode-enable-auto-closing t)
+;; Auto quoting for attributes (attr="")
+(setq web-mode-enable-auto-quoting nil)
+;; Auto exending (d/ -> <div></div>)
+(setq web-mode-enable-auto-expanding nil)
+
+;; Enable gtags for web-mode (PHP, JS)
+(add-hook 'web-mode-hook 'helm-gtags-mode)
+
+;; Setup python-mode
+
+;; We must load the built-in python.el module before
+;; python-mode.el in order for the last one to override
+;; the major mode.
+(require 'python)
+(require 'python-mode)
 
 ;; Setup helm
 (require 'helm)
@@ -260,40 +290,12 @@
 ;; Setup function-args
 (require 'function-args)
 
+(fa-config-default)
+
 (setq moo-select-method 'helm)
 
 (add-hook 'c-mode-hook 'turn-on-function-args-mode)
 (add-hook 'c++-mode-hook 'turn-on-function-args-mode)
-
-;; Setup clang format
-(require 'clang-format)
-;; CLang format loads the default style
-;; from .clang-format file in one parent directory
-
-;; Setup web-mode
-(require 'web-mode)
-
-;; Auto pairing (<?php ?>)
-(setq web-mode-enable-auto-pairing t)
-;; Auto opening HTML tags
-(setq web-mode-enable-auto-opening t)
-;; Auto closing HTML tags (<p></p>)
-(setq web-mode-enable-auto-closing t)
-;; Auto quoting for attributes (attr="")
-(setq web-mode-enable-auto-quoting nil)
-;; Auto exending (d/ -> <div></div>)
-(setq web-mode-enable-auto-expanding nil)
-
-;; Enable gtags for web-mode (PHP, JS)
-(add-hook 'web-mode-hook 'helm-gtags-mode)
-
-;; Setup python-mode
-
-;; We must load the built-in python.el module before
-;; python-mode.el in order for the last one to override
-;; the major mode.
-(require 'python)
-(require 'python-mode)
 
 ;; Setup dired
 (require 'dired)
@@ -307,6 +309,11 @@
 
 ;; Set maximum recusrsive directory open depth
 (setq dired-subtree-cycle-depth 8)
+
+;; Setup clang format
+(require 'clang-format)
+;; CLang format loads the default style
+;; from .clang-format file in one parent directory
 
 ;;
 ;; Custom files
