@@ -1,9 +1,12 @@
 #+title: Emacs usage notes
 #+author: Ludovic Kuzma
 #+date: 2023-08-09
-*Version: 1.4.0*
+*Version: 1.5.0*
+
 * Notes
+
 ** Emacs
+
 *** Emacs Builtin keys
 
 <tab> : In c-mode indent the region
@@ -209,6 +212,7 @@ Type M-x to browse and run emacs commands
 vc-annotate : Launch version control interface
 replace-regex : Replace string with regex support
 align-regex : Align the current region with regex support
+eglot-rename : Rename the current symbol (C/C++ mode)
 
 c-set-offset : Display the offset variable used on the current region and
 prompt in order to change it, the special symbols used :

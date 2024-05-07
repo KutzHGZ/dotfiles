@@ -97,7 +97,7 @@
  * highlight-doxygen, clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 2.0.0-Full
+ * Version : 2.1.0-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -285,12 +285,14 @@
 
 ;; Use clangd server for C/C++
 (add-to-list 'eglot-server-programs
-			 '((c++-mode c-mode) "clangd"))
+			 '((c++-mode c-mode) . ("clangd" "--enable-config")))
 
 ;; Disable eglot syntax checking
 (add-to-list 'eglot-stay-out-of 'flymake)
 ;; Disable eglot symbol description (semantic summary is used instead)
 (add-to-list 'eglot-stay-out-of 'eldoc)
+;; Disable inline hints (function, constructor, ... parameters names)
+(add-hook 'eglot-managed-mode-hook (lambda() (eglot-inlay-hints-mode -1)))
 
 ;; Enable for C/C++
 (add-hook 'c-mode-hook 'eglot-ensure)
