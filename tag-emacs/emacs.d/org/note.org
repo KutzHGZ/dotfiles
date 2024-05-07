@@ -148,19 +148,15 @@ M-m : Open man page
 *Helm gtags mode*
 
 M-q : List semantic tags
-M-s t : List tags
-M-s f : List tags in the current function
-M-s s : Find symbol
+M-s l : List tags
 
-M-s l : Show stack
+M-s s : Show stack
 M-s c : Clear stack
 
 M-. : Find and goto reference and push to stack
 M-? : Pop to the previous position
 
-*** Functions args keys
-
-*C and C++ mode*
+*Helm company mode*
 
 C-: : Complete C/C++ statement
 
@@ -229,8 +225,19 @@ to match Mozilla coding style.
 
 ** Resources
 
+*** Tools
+
+*gtags*  : GNU global (needed by helm gtags)
+*clangd* : For C/C++ auto-completion (needed by eglot)
+*bear*   : For compile_commands.json generaton for gmake project (needed by eglot)
+*cmake*  : For compile_commands.json generation, "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=On" (needed by eglot)
+
+*** Links
+
 - Emacs Helm                     : https://emacs-helm.github.io/helm/
 - Emacs LSP Mode                 : https://emacs-lsp.github.io/lsp-mode/
+- Emacs Eglot manual             : https://joaotavora.github.io/eglot/
 - Emacs C/C++ IDE setup tutorial : http://tuhdo.github.io/index.html
+- Clangd                         : https://clangd.llvm.org/
 - GNU Global (gtags)             : https://www.gnu.org/software/global/
 

@@ -7,8 +7,8 @@
 ;;
 
 ;; Check emacs version
-(when (< emacs-major-version 27)
-  (error "Emacs version 27 or higher is required"))
+(when (< emacs-major-version 29)
+  (error "Emacs version 29 or higher is required"))
 
 ;;
 ;; User directories
@@ -93,11 +93,11 @@
  * Author : Ludovic Kuzma
  * Installed packages :
  * [Global] : org, nlinum, nlinum-hl, dired-subtree
- * [Coding] : function-args, helm, helm-gtags, highlight-doxygen,
- * clang-format
+ * [Coding] : helm, helm-gtags, helm-company, eglot, company,
+ * highlight-doxygen, clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 1.13.1-Full
+ * Version : 2.0.0-Full
  * Default C/C++ identation : Stroustrup
  */
 ")
@@ -141,7 +141,9 @@
 (defconst user-packages
   '(helm
 	helm-gtags
-	function-args
+	helm-company
+	eglot
+	company
 	nlinum
 	nlinum-hl
 	highlight-doxygen
@@ -198,33 +200,20 @@
 		("DONE" . org-done)
 		("CANCELLED" . "red")))
 
-;; Emacs development environment requirements
-(require 'cedet)
-(require 'eieio)
-(require 'ede)
-
-;; Setup semantic
-(require 'semantic)
-
-(setq semantic-default-save-directory user-semanticdb-directory)
-
-(global-semanticdb-minor-mode t)
-
-(global-semantic-idle-scheduler-mode t)
-;; Wait 2 seconds before parsing
-(setq semantic-idle-scheduler-idle-time 2)
-;; Maximum buffer size (3 MB)
-(setq semantic-idle-scheduler-max-buffer-size 3145728)
-;; Use idle work to parse files in the same directory
-(setq semantic-idle-work-parse-neighboring-files-flag t)
-
- ;; Semantic bottom summary
-(global-semantic-idle-summary-mode t)
-
-(semantic-mode t)
-
 ;; Setup c-mode, c++-mode
 (require 'cc-mode)
+
+;; Setup rust-mode
+(require 'rust-mode)
+
+;; Setup cmake-mode
+(require 'cmake-mode)
+
+;; Setup yaml-mode
+(require 'yaml-mode)
+
+;; Setup markdown-mode
+(require 'markdown-mode)
 
 ;; Setup web-mode
 (require 'web-mode)
@@ -240,8 +229,8 @@
 ;; Auto exending (d/ -> <div></div>)
 (setq web-mode-enable-auto-expanding nil)
 
-;; Enable gtags for web-mode (PHP, JS)
-(add-hook 'web-mode-hook 'helm-gtags-mode)
+;; Setup c#-mode
+(require 'csharp-mode)
 
 ;; Setup python-mode
 
@@ -250,6 +239,62 @@
 ;; the major mode.
 (require 'python)
 (require 'python-mode)
+
+;; Emacs development environment requirements
+(require 'cedet)
+(require 'eieio)
+(require 'ede)
+
+;; Setup semantic
+(require 'semantic)
+
+(setq semantic-default-save-directory user-semanticdb-directory)
+(global-semanticdb-minor-mode t)
+
+;; Wait 2 seconds before parsing
+(setq semantic-idle-scheduler-idle-time 2)
+;; Maximum buffer size (3 MB)
+(setq semantic-idle-scheduler-max-buffer-size 3145728)
+;; Use idle work to parse files in the same directory
+(setq semantic-idle-work-parse-neighboring-files-flag t)
+
+;; Background files parsing
+(global-semantic-idle-scheduler-mode t)
+
+;; Semantic bottom summary
+(global-semantic-idle-summary-mode t)
+
+;; Enable semantic mode
+(semantic-mode t)
+
+;; Setup company auto-completion
+(require 'company)
+
+;; Disable built-in company auto-completion (will be managed by helm)
+(setq company-idle-delay nil)
+
+;; Enable for C/C++
+(add-hook 'c-mode-hook 'company-mode)
+(add-hook 'c++-mode-hook 'company-mode)
+
+;; Setup eglot
+(require 'eglot)
+
+;; Show server work progress
+(setq eglot-report-progress t)
+
+;; Use clangd server for C/C++
+(add-to-list 'eglot-server-programs
+			 '((c++-mode c-mode) "clangd"))
+
+;; Disable eglot syntax checking
+(add-to-list 'eglot-stay-out-of 'flymake)
+;; Disable eglot symbol description (semantic summary is used instead)
+(add-to-list 'eglot-stay-out-of 'eldoc)
+
+;; Enable for C/C++
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
 
 ;; Setup helm
 (require 'helm)
@@ -261,6 +306,8 @@
 (setq helm-move-to-line-cycle-in-source t)
 
 (helm-autoresize-mode t)
+
+;; Enable helm mode
 (helm-mode t)
 
 ;; FreeBSD man command workaround for helm man woman
@@ -279,23 +326,24 @@
 (setq helm-gtags-use-input-at-cursor t)
 (setq helm-gtags-pulse-at-cursor t)
 
+;; Enable gtags for C/C++
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
+
+;; Enable gtags for PHP, JS
+(add-hook 'web-mode-hook 'helm-gtags-mode)
+
 (add-hook 'asm-mode-hook 'helm-gtags-mode)
 (add-hook 'java-mode-hook 'helm-gtags-mode)
 
 ;; Setup helm semantic
 (require 'helm-semantic)
 
-;; Setup function-args
-(require 'function-args)
+;; Setup helm company
+(require 'helm-company)
 
-(fa-config-default)
-
-(setq moo-select-method 'helm)
-
-(add-hook 'c-mode-hook 'turn-on-function-args-mode)
-(add-hook 'c++-mode-hook 'turn-on-function-args-mode)
+;; Show icons in helm buffer
+(setq helm-company-show-icons t)
 
 ;; Setup dired
 (require 'dired)
@@ -312,7 +360,7 @@
 
 ;; Setup clang format
 (require 'clang-format)
-;; CLang format loads the default style
+;; Clang format loads the default style
 ;; from .clang-format file in one parent directory
 
 ;;
@@ -378,10 +426,11 @@
  '(linum ((t (:inherit (shadow default) :foreground "dim gray"))))
  '(nlinum-current-line ((t (:inherit linum :background "lime green" :foreground "black")))))
 
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(clang-format dired-subtree python-mode csharp-mode web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum function-args helm-gtags helm)))
+   '(clang-format dired-subtree python-mode web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum helm-company helm-gtags helm)))

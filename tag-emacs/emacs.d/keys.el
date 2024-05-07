@@ -121,30 +121,6 @@
 ;; C-x C-b : Legacy emacs list buffers
 (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 
-;; M-q : List semantic tags
-(define-key helm-gtags-mode-map (kbd "M-q") 'helm-semantic)
-
-;; M-s t : List tags
-(define-key helm-gtags-mode-map (kbd "M-s t") 'helm-gtags-select)
-
-;; M-s f : List tags in this function
-(define-key helm-gtags-mode-map (kbd "M-s f") 'helm-gtags-tags-in-this-function)
-
-;; M-s s : Find symbol
-(define-key helm-gtags-mode-map (kbd "M-s s") 'helm-gtags-find-symbol)
-
-;; M-s l : Show stack
-(define-key helm-gtags-mode-map (kbd "M-s l") 'helm-gtags-show-stack)
-
-;; M-s c : Clear stack
-(define-key helm-gtags-mode-map (kbd "M-s c") 'helm-gtags-clear-stack)
-
-;; M-. : Find references and push to stack
-(define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
-
-;; M-? : Pop stack
-(define-key helm-gtags-mode-map (kbd "M-?") 'helm-gtags-pop-stack)
-
 ;; Restore the old left, right arrow key behavior of helm
 
 (define-key helm-map (kbd "<left>") 'helm-previous-source)
@@ -156,13 +132,26 @@
 (customize-set-variable 'helm-occur-use-ioccur-style-keys t)
 (customize-set-variable 'helm-grep-use-ioccur-style-keys t)
 
-;;
-;; Functions-args mode
-;;
+;; M-q : List semantic tags
+(define-key helm-gtags-mode-map (kbd "M-q") 'helm-semantic)
 
-;; C-: : Completion with function-args and helm
-(define-key c-mode-map (kbd "C-:") 'moo-complete)
-(define-key c++-mode-map (kbd "C-:") 'moo-complete)
+;; M-s l : List tags
+(define-key helm-gtags-mode-map (kbd "M-s l") 'helm-gtags-select)
+
+;; M-s s : Show stack
+(define-key helm-gtags-mode-map (kbd "M-s s") 'helm-gtags-show-stack)
+
+;; M-s c : Clear stack
+(define-key helm-gtags-mode-map (kbd "M-s c") 'helm-gtags-clear-stack)
+
+;; M-. : Find references and push to stack
+(define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+
+;; M-? : Pop stack
+(define-key helm-gtags-mode-map (kbd "M-?") 'helm-gtags-pop-stack)
+
+;; C-: : Eglot auto-completion using company and helm
+(define-key company-mode-map (kbd "C-:") 'helm-company)
 
 ;;
 ;; Clang format
