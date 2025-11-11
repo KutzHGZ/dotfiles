@@ -62,19 +62,30 @@
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
-;; Custom scratch message and mode
-(setq initial-major-mode 'c++-mode)
+;;
+;; Initial scratch message and major mode
+;;
 
-(setq initial-scratch-message "\
+;; Clear the startup screen: allows to launch emacs and
+;; directly take note or past some text
+(defconst clear-initial-startup t)
+
+(if clear-initial-startup
+	(setq initial-major-mode 'fundamental-mode)
+  (setq initial-major-mode 'c++-mode))
+
+(if clear-initial-startup
+	(setq initial-scratch-message nil)
+  (setq initial-scratch-message "\
 /*
  * Welcome to Emacs
- * Configuration author : Ludovic Kuzma
+ * Author : Ludovic Kuzma
  * Installed packages : helm, nlinum, nlinum-hl,
  * yaml-mode, markdown-mode
- * Version : 1.2.1-Basic
+ * Version : 1.3.0-Basic
  * Default C/C++ identation : Stroustrup
  */
-")
+"))
 
 ;; Enable backup file
 (setq make-backup-files t)
@@ -129,16 +140,16 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;;
-;; Module configuration
-;;
-
 ;; Auto install needed user package
 (mapc
  (lambda (package)
    (unless (package-installed-p package)
      (package-install package)))
  user-packages)
+
+;;
+;; Module configuration
+;;
 
 ;; Setup helm
 (require 'helm)
@@ -191,4 +202,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(markdown-mode yaml-mode nlinum-hl nlinum helm)))
+ '(package-selected-packages nil))

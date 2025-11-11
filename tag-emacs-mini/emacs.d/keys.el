@@ -99,6 +99,7 @@
 (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 
 ;; Restore the old left, right arrow key behavior of helm
+;; Introduced in 2019, but restored since 2020
 
 (define-key helm-map (kbd "<left>") 'helm-previous-source)
 (define-key helm-map (kbd "<right>") 'helm-next-source)

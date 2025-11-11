@@ -20,14 +20,28 @@
       (tooltip-mode -1)
       (scroll-bar-mode -1)))
 
-;; Display line and column at the bottom
-(line-number-mode t)
-(column-number-mode t)
+;;
+;; Cursor
+;;
+
+;; Set horizontal bar cursor style
+(setq-default cursor-type '(hbar . 2))
+
+;; Highlight matching parentheses
+;; Delay must be set before enabling the mode
+(setq show-paren-delay 0.5)
+(show-paren-mode t)
 
 ;;
 ;; Colors
 ;;
 
+;; Set default colors for all frames
+(add-to-list 'default-frame-alist '(background-color . "black"))
+(add-to-list 'default-frame-alist '(foreground-color . "grey"))
+(add-to-list 'default-frame-alist '(cursor-color . "lime green"))
+
+;; Set colors for the main frame
 (set-background-color "black")
 (set-foreground-color "grey")
 (set-cursor-color "lime green")
@@ -41,12 +55,14 @@
 
 (require 'cl)
 
-;; Default fonts
+
+;; User font list
 (defconst user-font-list
-  '("DejaVu Sans Mono-10:weigth=normal"
-    "DejaVu Sans-10:weight=normal"
-    "Consolas-10:weight=normal"
-    "Courier-10:weight=normal"))
+  '("DejaVu Sans Mono-10:weigth=normal" ;; Default Linux font
+	"DejaVu Sans-10:weight=normal"
+	"Consolas-10:weight=normal"
+	"Andale Mono-14:weight=normal" ;; Default macOS font
+	"Courier-14:weight=normal"))
 
 (defvar default-font nil)
 
@@ -66,29 +82,35 @@
 
 ;; Use tabs for indentation
 (setq-default indent-tabs-mode t)
-
 ;; Set tab width to 4 characters
 (setq-default tab-width 4)
+
 ;; Set the basic offsets to tab-width (4) in order to use tabs for indentation
 (setq-default c-basic-offset tab-width)
 (setq-default cperl-indent-level tab-width)
 
-;; Default ident for c-mode
+;; Default indentation for c-mode
 (setq c-default-style "stroustrup")
-;; (setq c-default-style "k&r")
-;; (setq c-default-style "gnu")
+;;(setq c-default-style "k&r")
+;;(setq c-default-style "gnu")
 
-;; Ident macros as regular c
-;; (c-set-offset (quote cpp-macro) 0 nil)
+;; Indent macros as regular C/C++ (imposed by my workplace)
+(c-set-offset 'cpp-macro 0)
 
-;; Do not ident namespace {}
+;; Do not indent inside C++ 'namespace'
 (c-set-offset 'innamespace 0)
 
-;; Do not ident extern "C" {}
+;; Do not indent inside C++ 'extern "C"'
 (c-set-offset 'inextern-lang 0)
 
-;; Ident with case label
+;; Ident switch-case labels
 (c-set-offset 'case-label '+)
+
+;; Do not indent inside C++ class inline method
+(c-set-offset 'inline-open 0)
+
+;; Do not indent the solo ')' after an argument list
+(c-set-offset 'arglist-close 0)
 
 ;;
 ;; Alignement
@@ -142,6 +164,10 @@
 ;;
 ;; Column line number and highlight
 ;;
+
+;; Display line and column at the bottom
+(line-number-mode t)
+(column-number-mode t)
 
 ;; Display line number left margin
 (require 'nlinum)
