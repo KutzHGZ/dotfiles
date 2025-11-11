@@ -84,9 +84,20 @@
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
-;; Custom scratch message and mode
-(setq initial-major-mode 'c++-mode)
+;;
+;; Initial scratch message and major mode
+;;
 
+;; Clear the startup screen: allows to launch emacs and
+;; directly take notes or past some text
+(defconst clear-initial-startup t)
+
+(if clear-initial-startup
+	(setq initial-major-mode 'fundamental-mode)
+  (setq initial-major-mode 'c++-mode))
+
+(if clear-initial-startup
+	(setq initial-scratch-message nil)
 (setq initial-scratch-message "\
 /*
  * Welcome to Emacs
@@ -97,10 +108,10 @@
  * highlight-doxygen, clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 2.1.0-Full
+ * Version : 2.2.0-Full
  * Default C/C++ identation : Stroustrup
  */
-")
+"))
 
 ;; Enable backup file
 (setq make-backup-files t)
@@ -294,6 +305,14 @@
 ;; Disable inline hints (function, constructor, ... parameters names)
 (add-hook 'eglot-managed-mode-hook (lambda() (eglot-inlay-hints-mode -1)))
 
+;; Disable server formatting capabilities
+;; It caused conflicts in Emacs 30.1 between
+;; the builtin emacs formatter and clangd
+(setq eglot-ignored-server-capabilities
+	  '(:documentFormattingProvider
+		:documentRangeFormattingProvider
+		:documentOnTypeFormattingProvider))
+
 ;; Enable for C/C++
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
@@ -428,11 +447,9 @@
  '(linum ((t (:inherit (shadow default) :foreground "dim gray"))))
  '(nlinum-current-line ((t (:inherit linum :background "lime green" :foreground "black")))))
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(clang-format dired-subtree python-mode web-mode markdown-mode yaml-mode cmake-mode rust-mode highlight-doxygen nlinum-hl nlinum helm-company helm-gtags helm)))
+ '(package-selected-packages nil))

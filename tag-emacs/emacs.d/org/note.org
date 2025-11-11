@@ -214,13 +214,15 @@ replace-regex : Replace string with regex support
 align-regex : Align the current region with regex support
 eglot-rename : Rename the current symbol (C/C++ mode)
 
-c-set-offset : Display the offset variable used on the current region and
-prompt in order to change it, the special symbols used :
-- "+" : c-basic-offset +1
-- "-" : c-basic-offset -1
-- "0" : no offset
-- "++" : c-basic-offset +2
-- "--" : c-basic-offset -2
+c-set-offset : Display the syntactic element offset on the current
+region and prompt in order to change it.
+The special offsets are:
+- '+'   : c-basic-offset +1
+- '-'   : c-basic-offset -1
+- '0'   : no offset
+- '[0]' : no indentation
+- '++'  : c-basic-offset +2
+- '--'  : c-basic-offset -2
 
 ** C Coding Style
 

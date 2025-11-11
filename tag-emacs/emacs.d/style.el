@@ -102,25 +102,28 @@
 ;; Do not add padding inside <script></script>
 (setq web-mode-script-padding 0)
 
-;; Default identation for c-mode
+;; Default indentation for c-mode
 (setq c-default-style "stroustrup")
 ;;(setq c-default-style "k&r")
 ;;(setq c-default-style "gnu")
 
-;; Indent macros as regular c
-;;(c-set-offset (quote cpp-macro) 0 nil)
+;; Indent macros as regular C/C++ (imposed by my workplace)
+(c-set-offset 'cpp-macro 0)
 
-;; Do not indent namespace {}
+;; Do not indent inside C++ 'namespace'
 (c-set-offset 'innamespace 0)
 
-;; Do not indent extern "C" {}
+;; Do not indent inside C++ 'extern "C"'
 (c-set-offset 'inextern-lang 0)
 
 ;; Ident switch-case labels
 (c-set-offset 'case-label '+)
 
-;; Do not ident inline blocks {}
+;; Do not indent inside C++ class inline method
 (c-set-offset 'inline-open 0)
+
+;; Do not indent the solo ')' after an argument list
+(c-set-offset 'arglist-close 0)
 
 ;;
 ;; Alignement
