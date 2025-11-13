@@ -108,7 +108,7 @@
  * highlight-doxygen, clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 2.2.0-Full
+ * Version : 2.2.1-Full
  * Default C/C++ identation : Stroustrup
  */
 "))
@@ -416,6 +416,9 @@
 
 ;; Set org-mode for ORG files
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+
+;; Set sh-mode for PowerShell scripts
+(add-to-list 'auto-mode-alist '("\\.ps1\\'" . sh-mode))
 
 ;;
 ;; Load external files
