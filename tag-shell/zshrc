@@ -66,10 +66,22 @@ elif mg_installed; then
 	EDITOR=mg
 fi
 
-# Zsh history
-HISTFILE=${HOME}/.zsh_history
+# Zsh history configuration
+HISTFILE="${HOME}/.zsh_history"
+# Store and save only 4000 events
 HISTSIZE=4000
 SAVEHIST=${HISTSIZE}
+# To not record aichat commands (verbose oneshot prompts)
+HISTORY_IGNORE="aichat *"
+
+setopt APPEND_HISTORY # Append shell history
+setopt HIST_EXPIRE_DUPS_FIRST # Duplication expire first
+setopt HIST_IGNORE_DUPS # Do not record duplicated event
+setopt HIST_IGNORE_ALL_DUPS # Delete old duplicated event if a new is recorded
+setopt HIST_FIND_NO_DUPS # Do not diplay previously found event
+setopt HIST_IGNORE_SPACE # Do not record event with start with space
+setopt HIST_SAVE_NO_DUPS # Do not write duplicated event to history
+setopt HIST_VERIFY
 
 # Load prompt
 autoload -Uz promptinit && promptinit
@@ -85,20 +97,7 @@ autoload -Uz compinit && compinit
 # Load zmv
 autoload -Uz zmv
 
-#
-# Options
-#
-
-setopt APPEND_HISTORY # Append shell history
-
-setopt HIST_EXPIRE_DUPS_FIRST # Duplication expire first
-setopt HIST_IGNORE_DUPS # Do not record duplicated event
-setopt HIST_IGNORE_ALL_DUPS # Delete old duplicated event if a new is recorded
-setopt HIST_FIND_NO_DUPS # Do not diplay previously found event
-setopt HIST_IGNORE_SPACE # Do not record event with start with space
-setopt HIST_SAVE_NO_DUPS # Do not write duplicated event to history
-setopt HIST_VERIFY
-
+# Other options
 unsetopt BEEP # Don't use Beeps
 unsetopt AUTO_CD
 setopt HASH_LIST_ALL # Hash $PATH before completion
