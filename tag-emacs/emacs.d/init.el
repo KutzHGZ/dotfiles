@@ -108,7 +108,7 @@
  * highlight-doxygen, clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 2.3.0-Full
+ * Version : 2.4.0-Full
  * Default C/C++ identation : Stroustrup
  */
 "))
@@ -398,10 +398,17 @@
 ;; Set csharp-mode for CS
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
 
-;; Set web-mode for HTML, PHP, JS, Module JS, TS, JSON, JSON5, CSS, Sass SCSS
+;; Set web-mode for:
+;; - HTML
+;; - PHP
+;; - JS (JavaScript), CJS (CommonJS), MJS (ECMAScript Modules)
+;; - TS (TypeScript)
+;; - JSON, JSON5
+;; - CSS, Sass SCSS
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.cjs\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mjs\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
