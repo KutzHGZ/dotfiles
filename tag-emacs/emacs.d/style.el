@@ -147,7 +147,8 @@
 
 ;; Highlight above 80 column and trailing spaces
 (setq whitespace-style '(face lines-tail trailing))
-(setq whitespace-line-column 80)
+;; Increased from 80 to 120 since visibility is no longer affected on 2026 screens
+(setq whitespace-line-column 120)
 
 ;; Disable whitespace post processing
 ;; Increase cursor speed
