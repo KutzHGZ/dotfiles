@@ -392,7 +392,7 @@
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode))
 
 ;; Set c++-mode for CUDA, Capnp files
-(add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cu\\'"    . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.capnp\\'" . c++-mode))
 
 ;; Set csharp-mode for CS
@@ -405,19 +405,19 @@
 ;; - TS (TypeScript)
 ;; - JSON, JSON5
 ;; - CSS, Sass SCSS
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.cjs\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mjs\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'"  . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'"   . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'"    . web-mode))
+(add-to-list 'auto-mode-alist '("\\.cjs\\'"   . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs\\'"   . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'"    . web-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'"  . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json5\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'"   . web-mode))
+(add-to-list 'auto-mode-alist '("\\.scss\\'"  . web-mode))
 
 ;; Set python-mode for Python files
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.py\\'"  . python-mode))
 (add-to-list 'auto-mode-alist '("\\.py3\\'" . python-mode))
 
 ;; Set web-mode for Vue.js files

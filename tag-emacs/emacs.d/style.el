@@ -39,7 +39,7 @@
 ;; Set default colors for all frames
 (add-to-list 'default-frame-alist '(background-color . "black"))
 (add-to-list 'default-frame-alist '(foreground-color . "grey"))
-(add-to-list 'default-frame-alist '(cursor-color . "lime green"))
+(add-to-list 'default-frame-alist '(cursor-color     . "lime green"))
 
 ;; Set colors for the main frame
 (set-background-color "black")
