@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; ~/.emacs.d/style.el
 ;; Emacs style definition file
 ;; Auhtor : Kuzma Ludovic

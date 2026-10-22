@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; ~/.emacs.d/keys.el
 ;; Key binding definition file
 ;; Author : Kuzma Ludovic

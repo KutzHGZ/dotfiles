@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; ~/.emacs.d/init.el
 ;; Emacs init file
 ;; Author : Kuzma Ludovic
@@ -108,7 +110,7 @@
  * highlight-doxygen, clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 2.5.0-Full
+ * Version : 2.5.1-Full
  * Default C/C++ identation : Stroustrup
  */
 "))

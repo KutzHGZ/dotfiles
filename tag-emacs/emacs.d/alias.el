@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; ~/.emacs.d/alias.el
 ;; Alias definition file
 ;; Author : Kuzma Ludovic
