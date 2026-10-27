@@ -110,7 +110,7 @@
  * highlight-doxygen, clang-format
  * [Lang]   : rust-mode, cmake-mode, yaml-mode,
  * markdown-mode, web-mode, csharp-mode, python-mode
- * Version : 2.5.1-Full
+ * Version : 2.5.2-Full
  * Default C/C++ identation : Stroustrup
  */
 "))
@@ -307,13 +307,16 @@
 ;; Disable inline hints (function, constructor, ... parameters names)
 (add-hook 'eglot-managed-mode-hook (lambda() (eglot-inlay-hints-mode -1)))
 
-;; Disable server formatting capabilities
-;; It caused conflicts in Emacs 30.1 between
-;; the builtin emacs formatter and clangd
+;; Disable server formatting, highlighting, and other capabilities
+;; This causes conflicts with built-in capabilities in Emacs and clangd
 (setq eglot-ignored-server-capabilities
 	  '(:documentFormattingProvider
 		:documentRangeFormattingProvider
-		:documentOnTypeFormattingProvider))
+		:documentOnTypeFormattingProvider
+		:documentHighlightProvider
+		:documentLinkProvider
+		:colorProvider
+		:semanticTokensProvider))
 
 ;; Enable for C/C++
 (add-hook 'c-mode-hook 'eglot-ensure)
